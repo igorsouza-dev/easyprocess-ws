@@ -34,6 +34,7 @@ class HelperPessoa extends HelperGeral {
         'NOME',
         'DATAHORAINCLUSAO',
         'RESPINCLUSAO',
+        'OAB',
         'EMAIL'
     );
 

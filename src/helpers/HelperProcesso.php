@@ -4,9 +4,10 @@ class HelperProcesso extends HelperGeral
     public $primarykey = 'CODPROCESSO';
     public $campos = array(
         'CODPROCESSO','CODUSUARIO',
-        'NUMEROPROCESSO', 'ORGAOJULGADOR',
-        'CODIGOCLASSEJUDICIAL', 'COMPETENCIAJUDICIAL',
-        'JUIZRESPONSAVEL', 'DATAHORAAUTUACAO'
+        'NUMEROPROCESSO', 'APELIDO',
+        'ORGAOJULGADOR', 'CODIGOCLASSEJUDICIAL',
+        'COMPETENCIAJUDICIAL', 'JUIZRESPONSAVEL',
+        'DATAHORAAUTUACAO', 'EXIBIRAPP'
     );
     public $campos_obrigatorios = array(
         'CODUSUARIO'
@@ -50,7 +51,11 @@ class HelperProcesso extends HelperGeral
                 $processo = $this->getProcesso($inserido);
                 return $processo;
             }catch (Exception $e){
-                return array('status'=>false, 'error'=>'Ocorreu um erro durante a inserção do processo no banco de dados.');
+                return array(
+                    'status'=>false,
+                    'error'=>'Ocorreu um erro durante a inserção do processo no banco de dados.',
+                    'error_db'=>$e->getMessage()
+                );
             }
         }else{
             return $validou;
@@ -74,7 +79,11 @@ class HelperProcesso extends HelperGeral
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');
             }
         }catch (Exception $e){
-            return array('status'=>false, 'error'=>'Ocorreu um erro ao atualizar os dados do processo no banco de dados.');
+            return array(
+                'status'=>false,
+                'error'=>'Ocorreu um erro ao atualizar os dados do processo no banco de dados.',
+                'error_db'=>$e->getMessage()
+            );
         }
         return array('status'=>false, 'error'=>'Não foi possível atualizar os dados do processo.');
     }
