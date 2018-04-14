@@ -36,12 +36,12 @@ $app->post('/anotacoes', function(Request $request, Response $response) {
 
     $helperAnotacoes = new HelperAnotacoes();
 
-    $restultado = $helperAnotacoes->insert($dados);
-    if ($restultado['status']) {
-        $json = $restultado['entity'];
+    $resultado = $helperAnotacoes->insert($dados);
+    if ($resultado['status']) {
+        $json = $resultado['entity'];
         return $response->withJson($json, 201);
     } else {
-        return $response->withJson($restultado, 500);
+        return $response->withJson($resultado, 500);
     }
 });
 
