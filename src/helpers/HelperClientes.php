@@ -1,146 +1,129 @@
 <?php
 
-class HelperAnotacoes extends HelperGeral
+class HelperClientes extends HelperGeral
 {
-    //ANOTACAO = OCORRENCIA
-    public $primarykey = 'CODOCORRENCIA';
+    public $primarykey = 'CODCLIENTE';
     public $campos = array(
-        'CODOCORRENCIA','CODEMPRESA',
-        'CODUSUARIO', 'CODPROCESSO',
-        'CODTIPOOCORRENCIA', 'CODFORNECEDOR',
-        'CODCLIENTE','DATAOCORRENCIA',
-        'HORAOCORRENCIA','DESCRICAO',
+        'CODCLIENTE', 'CODPESSOA',
+        'CODEMPRESA', 'ATIVO',
         'DATAHORAINCLUSAO', 'RESPINCLUSAO',
         'DATAHORAALTERACAO', 'RESPALTERACAO',
         'DATAHORAEXCLUSAO','EXCLUIDOPOR',
         'EXCLUIDO'
     );
+
     public $campos_obrigatorios = array(
-        'CODEMPRESA', 'DATAOCORRENCIA'
+        'CODPESSOA','CODEMPRESA'
     );
 
-    public function getAnotacao($id)
+    public function getCliente($id)
     {
         $params = array(
             $this->primarykey => $id,
             'EXCLUIDO'=>"N"
         );
 
-        $result = $this->getAnotacoes($params);
+        $result = $this->getClientes($params);
         if(isset($result['entity'])){
             $result['entity'] = $result['entity'][0];
         }
         return $result;
     }
 
-    public function getAnotacoes($params)
+    public function getClientes($params)
     {
-        $resultado = $this->queryWithParams($params, 'Mocorrencias');
+        $resultado = $this->queryWithParams($params, 'Mclientes');
 
         if(count($resultado)){
-            $ocorrencias = array();
-            foreach($resultado as $ocorrencia){
-                $ocorrencias[] = $this->toArray($ocorrencia, $this->campos);
+            $clientes = array();
+            foreach($resultado as $cliente){
+                $clientes[] = $this->toArray($cliente, $this->campos);
             }
-            return array('status'=>true, 'entity'=>$ocorrencias);
+            return array('status'=>true, 'entity'=>$clientes);
         }else{
-            return array('status'=>false, 'error'=>'Não foram encontradas ocorrências com os dados informados.');
+            return array('status'=>false, 'error'=>'Não foram encontrados clientes com os dados informados.');
         }
     }
 
     public function insert($dados)
     {
-        $ocorrencia = new Mocorrencias();
-        $dadosOcorrencia = $this->removeCamposInvalidos($dados, $this->campos);
+        $cliente = new Mclientes();
+        $dadosCliente = $this->removeCamposInvalidos($dados, $this->campos);
 
         $helperEmpresa = new HelperEmpresa();
-        $empresa = null;
 
-        //verifica se foi informada uma empresa para a anotacao
+        //verifica se foi informada uma empresa para o cliente
         if (isset($dados[$helperEmpresa->primarykey])) {
             //se foi, verifica se é valida
             $codempresa = $dados[$helperEmpresa->primarykey];
 
             $empresa = $helperEmpresa->getEmpresa($codempresa);
             if (!$empresa['status']) {
-               return array('status'=>false, 'error'=>'Empresa informada é inválida');
+                return array('status'=>false, 'error'=>'Empresa informada é inválida');
             }
 
-            $dadosOcorrencia[$helperEmpresa->primarykey] = $codempresa;
-            $ocorrencia->setEmpresa($codempresa);
+            $dadosCliente[$helperEmpresa->primarykey] = $codempresa;
+            $cliente->setEmpresa($codempresa);
 
         } else {
             return array('status'=>false, 'error'=>'Não foi informada uma empresa');
         }
 
-        $helperUsuario = new HelperUsuario();
-        $usuario = null;
+        $helperPessoa = new HelperPessoa();
 
-        //verifica se foi informado um usuario para a anotacao
-        if (isset($dados[$helperUsuario->primarykey])) {
-            //se foi, verifica se existe
-            $codusuario = $dados[$helperUsuario->primarykey];
+        //verifica se foi informada uma pessoa para o cliente
+        if (isset($dados[$helperPessoa->primarykey])) {
+            //se foi, verifica se é valida
+            $codpessoa = $dados[$helperPessoa->primarykey];
 
-            $usuario = $helperUsuario->getUsuario($codusuario);
-            if (!$usuario['status']) {
-                return array('status'=>false, 'error'=>'Usuário informado é inválido');
+            $pessoa = $helperPessoa->getPessoa($codpessoa);
+            if (!$pessoa['status']) {
+                return array('status'=>false, 'error'=>'Pessoa informada é inválida');
             }
-            $dadosOcorrencia[$helperUsuario->primarykey] = $codusuario;
+
+            $dadosCliente[$helperPessoa->primarykey] = $codpessoa;
+        } else {
+            return array('status'=>false, 'error'=>'Não foi informada uma pessoa');
         }
-
-        $helperProcesso = new HelperProcesso();
-        $processo = null;
-
-        //verifica se foi informado um processo para a ocorrencia
-        if (isset($dados[$helperProcesso->primarykey])) {
-            //se foi, verifica se existe
-            $codprocesso = $dados[$helperProcesso->primarykey];
-
-            $processo = $helperProcesso->getProcesso($codprocesso);
-            if (!$processo['status']) {
-                return array('status'=>false, 'error'=>'Processo informado é inválido');
-            }
-            $dadosOcorrencia[$helperProcesso->primarykey] = $codprocesso;
-        }
-
 
         if (!isset($dados['RESPINCLUSAO'])) {
-            $ocorrencia->setResponsavel('APP EasyProcess');
+            $cliente->setResponsavel('APP EasyProcess');
         } else {
-            $ocorrencia->setResponsavel($dados['RESPINCLUSAO']);
+            $cliente->setResponsavel($dados['RESPINCLUSAO']);
         }
-
-        $validou = $this->verificaCamposObrigatorios($dadosOcorrencia, $this->campos_obrigatorios);
+        $validou = $this->verificaCamposObrigatorios($dadosCliente, $this->campos_obrigatorios);
 
         if ($validou['status']) {
             try {
-                $dadosOcorrencia = $this->chavesToLowerCase($dadosOcorrencia);
-                $inserido = $ocorrencia->insert($dadosOcorrencia);
+                $dadosCliente = $this->chavesToLowerCase($dadosCliente);
+                $inserido = $cliente->insert($dadosCliente);
                 if ($inserido) {
-                    $ocorrencia = $this->getAnotacao($inserido);
-                    return $ocorrencia;
+                    $cliente = $this->getCliente($inserido);
+                    return $cliente;
                 }
             } catch (Exception $e) {
                 return array(
                     'status'=>false,
-                    'error'=>'Ocorreu um erro ao inserir a anotação no banco de dados.',
+                    'error'=>'Ocorreu um erro ao inserir cliente no banco de dados.',
                     'error_db'=>$e->getMessage()
                 );
             }
-        } else {
+        }
+        else {
             return $validou;
         }
-        return array('status'=>false, 'error'=>'Não foi possível cadastrar anotação');
+        return array('status'=>false, 'error'=>'Não foi possível cadastrar cliente');
     }
 
     public function update($dados, $where = '')
     {
-        $entity = new Mocorrencias();
+        $entity = new Mclientes();
         if ($where == '') {
-           if (isset($dados[$this->primarykey])) {
-               $where = $this->primarykey.' = '.$dados[$this->primarykey];
-           }
+            if (isset($dados[$this->primarykey])) {
+                $where = $this->primarykey.' = '.$dados[$this->primarykey];
+            }
         }
+
         $tipoupdate = "atualizar";
         $isExclusao = false;
         if (isset($dados['EXCLUIDO'])) {
@@ -175,7 +158,7 @@ class HelperAnotacoes extends HelperGeral
                     return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');
                 }
             }
-        }catch (Exception $e){
+        } catch (Exception $e){
             return array(
                 'status'=>false,
                 'error'=>'Ocorreu um erro ao '.$tipoupdate.' os dados da anotação no banco de dados.',
