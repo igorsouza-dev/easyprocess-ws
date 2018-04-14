@@ -10,6 +10,7 @@ class HelperPessoa extends HelperGeral {
         'NOME', 'RAZAOSOCIAL',
         'SEXO', 'DATANASCIMENTO',
         'ESTADOCIVIL', 'CPF',
+        'OAB',
         'CNPJ', 'RG',
         'OERG', 'DATARG',
         'CTPS', 'CNH',

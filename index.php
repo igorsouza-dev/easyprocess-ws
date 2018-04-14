@@ -20,7 +20,7 @@ $config = [
 //        '/eproc/consultarAlteracao',
 //        '/eproc/consultarAvisosPendentes',
 //        '/eproc/consultarProcesso',
-        '/eproc/clientes',
+        '/eproc/pessoas',
 //        '/eproc/consultarProcessoXmlRetorno',
 //        '/eproc/consultarTeorComunicacao'
     ]
