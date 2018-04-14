@@ -19,8 +19,8 @@ $config = [
 //        '/eproc',
 //        '/eproc/consultarAlteracao',
 //        '/eproc/consultarAvisosPendentes',
-        '/eproc/consultarProcesso',
-        '/eproc/anotacoes',
+//        '/eproc/consultarProcesso',
+//        '/eproc/compromissos',
 //        '/eproc/consultarProcessoXmlRetorno',
 //        '/eproc/consultarTeorComunicacao'
     ]

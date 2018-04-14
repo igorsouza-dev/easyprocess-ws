@@ -7,6 +7,7 @@ class HelperCompromisso extends HelperGeral
         'CODORDENDESERVICO','DATAHORAINCLUSAO',
         'RESPINCLUSAO','DATAHORAALTERACAO',
         'RESPALTERACAO','CODEMPRESA',
+        'CODUSUARIO','CODPROCESSO', 'ALERTA',
         'CODFORNECEDOR','CODCLIENTE',
         'TITULO','SOLICITACAO',
         'DATASOLICITACAO','HORASOLICITACAO',
@@ -91,13 +92,14 @@ class HelperCompromisso extends HelperGeral
                 $where = $this->primarykey.' = '.$dados[$this->primarykey];
             }
         }
+        $tipoupdate = "atualizar";
 
         $isExclusao = false;
         if(isset($dados['EXCLUIDO'])){
             $isExclusao = $dados['EXCLUIDO']=='S';
 
-            if($dados['EXCLUIDO']=='S'){
-                $isExclusao = true;
+            if($isExclusao){
+                $tipoupdate = "excluir";
                 $entity->setResponsavel('APP EasyProcess');
                 if(isset($dados['EXCLUIDOPOR'])){
                     $entity->setResponsavel($dados['EXCLUIDOPOR']);
@@ -106,7 +108,6 @@ class HelperCompromisso extends HelperGeral
         }
 
         if(!$isExclusao){
-            $dados['DATAHORAALTERACAO'] = date('Y-m-d H:i:s');
             $entity->setResponsavel('APP EasyProcess');
             if(array_key_exists('RESPALTERACAO', $dados)){
                 $entity->setResponsavel($dados['RESPALTERACAO']);
@@ -114,19 +115,27 @@ class HelperCompromisso extends HelperGeral
         }
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
-
-            $atualizado = $entity->update($dados, $where);
-            if($atualizado){
-                return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');
+            $dados = $this->chavesToLowerCase($dados);
+            if ($isExclusao) {
+                $excluido = $entity->delete($where);
+                if($excluido){
+                    return array('status'=>true, 'message'=>'Dados excluidos com sucesso.');
+                }
+            } else {
+                $atualizado = $entity->update($dados, $where);
+                if($atualizado){
+                    return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');
+                }
             }
+
         }catch (Exception $e){
             return array(
                 'status'=>false,
-                'error'=>'Ocorreu um erro ao atualizar os dados do compromisso no banco de dados.',
+                'error'=>'Ocorreu um erro ao '.$tipoupdate.' os dados do compromisso no banco de dados.',
                 'error_db'=>$e->getMessage()
             );
         }
-        return array('status'=>false, 'error'=>'Não foi possível atualizar os dados do compromisso.');
+        return array('status'=>false, 'error'=>'Não foi possível '.$tipoupdate.' os dados do compromisso.');
     }
 
     public function delete($where = '', $responsavel = '')
@@ -136,7 +145,6 @@ class HelperCompromisso extends HelperGeral
             $responsavel = 'APP EasyProcess';
         }
         $dados['EXCLUIDOPOR'] = $responsavel;
-        $dados['DATAHORAEXCLUSAO'] = date('Y-m-d H:i:s');
 
         return $this->update($dados, $where);
     }
