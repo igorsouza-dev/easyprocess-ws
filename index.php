@@ -20,6 +20,7 @@ $config = [
 //        '/eproc/consultarAlteracao',
 //        '/eproc/consultarAvisosPendentes',
         '/eproc/consultarProcesso',
+        '/eproc/anotacoes',
 //        '/eproc/consultarProcessoXmlRetorno',
 //        '/eproc/consultarTeorComunicacao'
     ]
@@ -71,5 +72,6 @@ require 'src/routes/empresas.php';
 require 'src/routes/compromissos.php';
 require 'src/routes/auth.php';
 require 'src/routes/eproc.php';
+require 'src/routes/anotacoes.php';
 
 $app->run();
