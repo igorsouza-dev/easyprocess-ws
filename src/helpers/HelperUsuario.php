@@ -13,7 +13,7 @@ class HelperUsuario extends HelperGeral
         'DATASENHA', 'RESPSENHA',
         'ULTIMOACESSO', 'DATAHORALOGIN',
         'ALTERALOGIN', 'KEYLOGIN',
-        'TIPO', 'ATIVO', 'EXCLUIDO', 'DATAHORAEXCLUSAO',
+        'TIPO', 'ATIVO', 'USUARIOPREMIUM', 'EXCLUIDO', 'DATAHORAEXCLUSAO',
         'EXCLUIDOPOR'
     );
 
@@ -24,7 +24,8 @@ class HelperUsuario extends HelperGeral
         'LOGIN',
         'SENHA',
         'ALTERALOGIN',
-        'TIPO'
+        'TIPO',
+        'USUARIOPREMIUM'
     );
 
     public function getUsuario($id)
