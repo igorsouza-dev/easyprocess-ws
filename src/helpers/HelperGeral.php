@@ -37,6 +37,7 @@ abstract class HelperGeral
             $limit = $params['limit'];
             unset($params['limit']);
         }
+
         $sql = "SELECT * FROM ".$from;
 
         if(is_array($params)){
@@ -52,12 +53,20 @@ abstract class HelperGeral
                     if($value[0] == '>') {
                         $op = ' > ';
                         $value = str_replace('>','',$value);
-                    } elseif ($value[0] == '<'){
+                    } elseif ($value[0] == '<') {
                         $op = ' < ';
                         $value = str_replace('<','',$value);
+                    } elseif ($value[0] == '*') {
+                        $op = ' LIKE ';
                     }
-                    if(is_string($value)){
-                        $value = '"'.$value.'"';
+                    if(is_string($value)) {
+                        $value = str_replace('*', '', $value);
+                        $value = str_replace('%', '', $value);
+                        if( $op == ' LIKE ') {
+                            $value = '"%'.$value.'%"';
+                        } else {
+                            $value = '"'.$value.'"';
+                        }
                     }
 
                     $sql .= $param . $op . $value;
