@@ -8,7 +8,7 @@ require_once $_SERVER["DOCUMENT_ROOT"].'/files/php/class/Funcoes.php';
 
 $config = [
     'settings' => [
-        'displayErrorDetails' => true
+        'displayErrorDetails' => false
     ],
     'secretkey'=>'698ee85b52b7b65dde71e42705f3aa3aa276b173',
     'urls_permitidas'=>[
@@ -43,7 +43,7 @@ $app->add(function(Request $request, Response $response, $next){
 
     $token = $request->getHeader('HTTP_AUTHORIZATION')[0];
     $key = $this->get('secretkey');
-
+    $token = str_replace('Bearer ', '', $token);
     if($token != ''){
         $helperToken = new HelperToken($key);
         if($helperToken->validate($token)){
