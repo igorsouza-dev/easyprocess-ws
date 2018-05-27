@@ -46,7 +46,7 @@ $app->add(function(Request $request, Response $response, $next){
     $token = str_replace('Bearer ', '', $token);
     if($token != ''){
         $helperToken = new HelperToken($key);
-        if($helperToken->validate($token)){
+        if($helperToken->validateToken($token)){
             return $next($request, $response);
         }
     }
