@@ -202,4 +202,15 @@ class HelperUsuario extends HelperGeral
         return $this->delete($this->primarykey.' = '.$id, $responsavel);
     }
 
+    public function isPremium($codusuario) {
+        $resultado = $this->getUsuario($codusuario);
+        if($resultado['status']) {
+            $usuario = $resultado['entity'];
+            if($usuario['USUARIOPREMIUM'] == 'S') {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

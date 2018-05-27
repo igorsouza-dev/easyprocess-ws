@@ -1,6 +1,6 @@
 <?php 
 
-class HelperEproc {
+class HelperEproc extends HelperGeral {
     protected $wsdl;
     protected $client;
     protected $location;
@@ -177,14 +177,25 @@ class HelperEproc {
         $obrigInputs = array();
         return $this->request($obrigInputs, $params, $function);
     }
-    public function consultarProcesso($params) {
+    public function consultarProcesso($params, $premiumUser=false) {
+
         $function = 'consultarProcesso';
         $obrigInputs = array(
             'idConsultante',
             'senhaConsultante',
             'numeroProcesso'
         );
-        return $this->request($obrigInputs, $params, $function);
+        $dadosEproc = $this->request($obrigInputs, $params, $function);
+        if($premiumUser) {
+            if($this->isAdvogadoParte($params['OAB'], $dadosEproc)) {
+                $helperProcesso = new HelperProcesso();
+                $helperProcesso->insert();
+            }
+        }
+        return $dadosEproc;
+    }
+    public function isAdvogadoParte($oab, $processo) {
+        return $this->findInArray($oab, $processo);
     }
     public function downloadAnexo($params) {
         $function = 'consultarProcesso';

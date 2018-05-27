@@ -13,15 +13,16 @@ class HelperToken{
     {
         $this->key = $key;
     }
-    public function generate($login)
+    public function generate($payload)
     {
-        $this->user = $login;
+        $this->user = $payload['user'];
 
         $signer = new Sha256();
         $token = (new Builder())->setIssuer($this->issuer)
             ->setAudience($this->audience)
-            ->set('user', $login)
-            ->setSubject($login)
+            ->set('user', $this->user)
+            ->set('coduser', $payload['coduser'])
+            ->setSubject($this->user)
             ->setIssuedAt(time())
             ->setNotBefore(time())
             ->setExpiration(time() + 3600)
@@ -46,6 +47,21 @@ class HelperToken{
             }
 
         }catch (UnexpectedValueException $e){
+
+        }catch (InvalidArgumentException $e){
+
+        }
+        return false;
+
+    }
+    public static function getDataFromPayload($param, $token)
+    {
+
+        try{
+            $token = (new Parser())->parse((string) $token); // Parses from a string
+            return $token->getClaim($param);
+
+        } catch (UnexpectedValueException $e){
 
         }catch (InvalidArgumentException $e){
 

@@ -30,10 +30,14 @@ $app->post('/auth', function(Request $request, Response $response){
     if(count($result)){
         $result = $helper->toArray($result[0], $helper->campos);
         $login = $result['LOGIN'];
-
+        $codusuario = $result['CODUSUARIO'];
+        $payload = array(
+            'user'=>$login,
+            'coduser'=>$codusuario
+        );
         $key = $this->get('secretkey');
         $helperToken = new HelperToken($key);
-        $token = (string) $helperToken->generate($login);
+        $token = (string) $helperToken->generate($payload);
 
         return $response->withJson(array('TOKEN'=>$token));
 

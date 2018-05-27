@@ -174,4 +174,19 @@ abstract class HelperGeral
         }
         return $dados_validos;
     }
+
+    function findInArray($needle, $haystack) {
+        foreach($haystack as $k=>$h) {
+            if(is_array($h)) {
+                if(!empty($h)) {
+                    findInArray($needle, $h);
+                }
+            } else {
+                if($h === $needle) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

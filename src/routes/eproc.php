@@ -77,7 +77,14 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
             return $response->withJson($file, 500);
         }
     } else {
-        $result = $helper->consultarProcesso($params);
+        $token = $request->getHeader('HTTP_AUTHORIZATION')[0];
+
+        $token = str_replace('Bearer ', '', $token);
+        $helperUsuario = new HelperUsuario();
+        $coduser = HelperToken::getDataFromPayload('coduser', $token);
+//        echo $token;exit;
+//        $helperUsuario->isPremium()
+        $result = $helper->consultarProcesso($params, $helperUsuario->isPremium($coduser));
         if($result['status']) {
             return $response->withJson($result['entity'], 200);
         } else {
