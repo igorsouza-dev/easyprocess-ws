@@ -187,7 +187,7 @@ class HelperEproc extends HelperGeral {
         );
         $dadosEproc = $this->request($obrigInputs, $params, $function);
         if($premiumUser) {
-            if($this->isAdvogadoParte($params['OAB'], $dadosEproc)) {
+            if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
                 $helperProcesso = new HelperProcesso();
                 $helperProcesso->insert();
             }
