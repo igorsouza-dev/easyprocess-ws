@@ -1,0 +1,778 @@
+{
+  "sucesso": true,
+  "mensagem": "Consulta realizada com sucesso",
+  "processo": {
+    "dadosBasicos": {
+      "polo": [
+        {
+          "parte": {
+            "pessoa": {
+              "nome": "PROCESSO SEM PARTE RÉ",
+              "sexo": "D",
+              "tipoPessoa": "autoridade",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "assistenciaJudiciaria": false,
+            "intimacaoPendente": 0
+          },
+          "polo": "PA"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "95236589215",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "YURE NICOLAU FERREIRA OLIVEIRA",
+              "sexo": "M",
+              "nomeGenitora": "IRACI FERREIRA DE OLIVEIRA",
+              "dataNascimento": "19870624",
+              "numeroDocumentoPrincipal": "95236589215",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "nome": "FABIANO DA SILVA OLIVEIRA",
+              "numeroDocumentoPrincipal": "80682677272",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "78722489215",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "PAULO ROBERTO LELIS GOULART FILHO",
+              "sexo": "M",
+              "nomeGenitor": "PAULO ROBERTO LELIS GOULART",
+              "nomeGenitora": "ELIA SOARES GUIMARÃES",
+              "dataNascimento": "19850104",
+              "numeroDocumentoPrincipal": "78722489215",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "02415152110",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "endereco": {
+                "logradouro": "RUA RODOVIÁRIA",
+                "numero": "530",
+                "complemento": "",
+                "bairro": "SÃO JOÃO",
+                "cidade": "Araguaína",
+                "estado": "TO",
+                "pais": "BRASIL",
+                "cep": "77800000"
+              },
+              "nome": "NATALIA LELIS GUIMARÃES GOULART",
+              "sexo": "F",
+              "nomeGenitor": "NÃO INFORMADO",
+              "nomeGenitora": "ELIA SOARES GUIMARÃES",
+              "dataNascimento": "19871111",
+              "numeroDocumentoPrincipal": "02415152110",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "94323739249",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "endereco": {
+                "logradouro": "Rua S-13, QD 69, LT 13",
+                "numero": "s/n",
+                "complemento": "",
+                "bairro": "Sol Nascente",
+                "cidade": "Gurupi",
+                "estado": "TO",
+                "pais": "BRASIL",
+                "cep": "77400000"
+              },
+              "nome": "MAIKON VILANY  SANTOS BARROS",
+              "sexo": "M",
+              "nomeGenitora": "Marcia Santos Barros",
+              "dataNascimento": "19880309",
+              "numeroDocumentoPrincipal": "94323739249",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "02415153192",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "MAURA LELIS GUIMARÃES GOULART",
+              "sexo": "F",
+              "dataNascimento": "19000101",
+              "numeroDocumentoPrincipal": "02415153192",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "70779546172",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "MARCUS VINICIUS RODRIGUES GOULART",
+              "sexo": "M",
+              "nomeGenitor": "PAULO ROBERTO LELIS GOULART",
+              "nomeGenitora": "EDNA RODRIGUES PEREIRA",
+              "dataNascimento": "19800721",
+              "numeroDocumentoPrincipal": "70779546172",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "00393953246",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "ISADORA MARINHO SILVA",
+              "sexo": "F",
+              "nomeGenitor": "PAULO ROBERTO LELIS GOULART",
+              "nomeGenitora": "ELIZANE MARINHO SILVA",
+              "dataNascimento": "19900627",
+              "numeroDocumentoPrincipal": "00393953246",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "19092040134",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "ELIA SOARES GUIMARÃES",
+              "sexo": "F",
+              "nomeGenitora": "RAULIRA PEREIRA GUIMARÃES",
+              "dataNascimento": "19590529",
+              "numeroDocumentoPrincipal": "19092040134",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Qd 106 sul, alameda 4, lote 26, apt 205",
+                "numero": "205",
+                "complemento": "Ed. Condor",
+                "bairro": "Plano Diretor Sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77000000"
+              },
+              "nome": "EMILLENY LÁZARO DA SILVA SOUZA",
+              "numeroDocumentoPrincipal": "01747694150",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "05099010180",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "nome": "BRUNA PINHEIRO GOULART",
+              "sexo": "F",
+              "nomeGenitor": "PAULO ROBERTO LELIS GOULART",
+              "nomeGenitora": "LUCIENE ALVES PINHEIRO",
+              "dataNascimento": "19930113",
+              "numeroDocumentoPrincipal": "05099010180",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "Sul AL, 6",
+                "numero": "6",
+                "complemento": "",
+                "bairro": "setor sul",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77023386"
+              },
+              "nome": "THAIS AYLA APARECIDA PEDRO DA SILVA",
+              "numeroDocumentoPrincipal": "00895899124",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "01786078000146",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "pessoaVinculada": {
+                "documento": {
+                  "codigoDocumento": "49326791904",
+                  "emissorDocumento": "0",
+                  "tipoDocumento": "CMF",
+                  "nome": ""
+                },
+                "endereco": {
+                  "logradouro": "QUADRA 202 NORTE AV LO 02 CONJUNTO 01",
+                  "numero": "05",
+                  "complemento": "",
+                  "bairro": "PLANO DIRETOR NORTE",
+                  "cidade": "Palmas",
+                  "estado": "TO",
+                  "pais": "BRASIL",
+                  "cep": "77006218"
+                },
+                "nome": "BEATRIZ REGINA LIMA DE MELLO",
+                "sexo": "F",
+                "dataNascimento": "19660712",
+                "numeroDocumentoPrincipal": "49326791904",
+                "tipoPessoa": "fisica",
+                "cidadeNatural": "",
+                "nacionalidade": "BR"
+              },
+              "nome": "MINISTÉRIO PÚBLICO",
+              "sexo": "D",
+              "numeroDocumentoPrincipal": "01786078000146",
+              "tipoPessoa": "juridica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "QUADRA 202 NORTE AV LO 02 CONJUNTO 01",
+                "numero": "05",
+                "complemento": "",
+                "bairro": "PLANO DIRETOR NORTE",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77006218"
+              },
+              "nome": "BEATRIZ REGINA LIMA DE MELLO",
+              "numeroDocumentoPrincipal": "03015758195",
+              "intimacao": false,
+              "tipoRepresentante": "M"
+            },
+            "assistenciaJudiciaria": false,
+            "intimacaoPendente": 0
+          },
+          "polo": "FL"
+        }
+      ],
+      "assunto": {
+        "codigoNacional": 7677,
+        "principal": true
+      },
+      "magistradoAtuante": "26915413120",
+      "outroParametro": {},
+      "valorCausa": 1000,
+      "orgaoJulgador": {
+        "codigoOrgao": "33614",
+        "nomeOrgao": "JUIZO DO CENTRO JUDICIÁRIO DE SOLUÇÃO DE CONFLITOS E CIDADANIA (CEJUSC) - PALMAS",
+        "instancia": "ORIG",
+        "codigoMunicipioIBGE": 0
+      },
+      "outrosnumeros": "",
+      "numero": "00372467120178272729",
+      "competencia": 1,
+      "classeProcessual": 112,
+      "codigoLocalidade": "2729",
+      "nivelSigilo": 0,
+      "intervencaoMP": true,
+      "tamanhoProcesso": 1428000,
+      "dataAjuizamento": "20171107141505"
+    },
+    "documento": [
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000013",
+        "dataHora": "20171107142126",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 2,
+        "descricao": "",
+        "tipoDocumentoLocal": "26"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000014",
+        "dataHora": "20171107142414",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 3,
+        "descricao": "",
+        "tipoDocumentoLocal": "26"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000001",
+        "dataHora": "20171107140656",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "1"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000002",
+        "dataHora": "20171107140656",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "71"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000003",
+        "dataHora": "20171107140656",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "262"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000004",
+        "dataHora": "20171107140656",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000005",
+        "dataHora": "20171107140656",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000006",
+        "dataHora": "20171107141022",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000007",
+        "dataHora": "20171107141022",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000008",
+        "dataHora": "20171107141022",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000009",
+        "dataHora": "20171107141023",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000010",
+        "dataHora": "20171107141023",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000011",
+        "dataHora": "20171107141119",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510071912328680330000000012",
+        "dataHora": "20171107141119",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 1,
+        "descricao": "",
+        "tipoDocumentoLocal": "301"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510836531399050330000000011",
+        "dataHora": "20171116095231",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 7,
+        "descricao": "",
+        "tipoDocumentoLocal": "14"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711517315355526390340000000003",
+        "dataHora": "20180130094615",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 21,
+        "descricao": "",
+        "tipoDocumentoLocal": "16"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 8,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 9,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 10,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 11,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 12,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 13,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 14,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 15,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 16,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      },
+      {
+        "assinatura": {},
+        "outroParametro": {},
+        "documentoVinculado": {},
+        "idDocumento": "711510924225359530340000000002",
+        "dataHora": "20171117101647",
+        "mimetype": "pdf",
+        "nivelSigilo": 0,
+        "movimento": 17,
+        "descricao": "",
+        "tipoDocumentoLocal": "28"
+      }
+    ]
+  }
+}

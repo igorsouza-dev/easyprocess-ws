@@ -177,6 +177,14 @@ class HelperEproc extends HelperGeral {
         $obrigInputs = array();
         return $this->request($obrigInputs, $params, $function);
     }
+
+    protected function requestMockada()
+    {
+        $array = file_get_contents(__DIR__.'/mock.json');
+        $array = json_decode(utf8_decode($array), true);
+        return $array;
+    }
+
     public function consultarProcesso($params, $premiumUser=false) {
 
         $function = 'consultarProcesso';
@@ -185,17 +193,20 @@ class HelperEproc extends HelperGeral {
             'senhaConsultante',
             'numeroProcesso'
         );
-        $dadosEproc = $this->request($obrigInputs, $params, $function);
+//        $dadosEproc = $this->request($obrigInputs, $params, $function);
+        $dadosEproc = $this->requestMockada();
         if($premiumUser) {
+
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
+
                 $helperProcesso = new HelperProcesso();
-                $helperProcesso->insert();
+                $helperProcesso->insert('');
             }
         }
         return $dadosEproc;
     }
-    public function isAdvogadoParte($oab, $processo) {
-        return $this->findInArray($oab, $processo);
+    public function isAdvogadoParte($cpf, $processo) {
+        return $this->findInArray($cpf, $processo);
     }
     public function downloadAnexo($params) {
         $function = 'consultarProcesso';

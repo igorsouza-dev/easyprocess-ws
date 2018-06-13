@@ -83,7 +83,16 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
         $helperUsuario = new HelperUsuario();
         $coduser = HelperToken::getDataFromPayload('coduser', $token);
 //        echo $token;exit;
-//        $helperUsuario->isPremium()
+//        echo $helperUsuario->isPremium($coduser);exit;
+        // TODO Testar busca de CPF dentro de array
+        $usuario = $helperUsuario->getUsuario($coduser);
+        if($usuario['status']){
+            $helperPessoa = new HelperPessoa();
+            $pessoa = $helperPessoa->getPessoa($usuario['entity']['CODPESSOA']);
+            if($pessoa['status']){
+                $params['CPF'] = $pessoa['entity']['CPF'];
+            }
+        }
         $result = $helper->consultarProcesso($params, $helperUsuario->isPremium($coduser));
         if($result['status']) {
             return $response->withJson($result['entity'], 200);
