@@ -181,7 +181,7 @@ class HelperEproc extends HelperGeral {
     protected function requestMockada()
     {
         $array = file_get_contents(__DIR__.'/mock.json');
-        $array = json_decode(utf8_decode($array), true);
+        $array = json_decode($array, true);
         return $array;
     }
 
@@ -198,9 +198,37 @@ class HelperEproc extends HelperGeral {
         if($premiumUser) {
 
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
-
+                $processo = $dadosEproc['processo'];
+                $dadosBasicos = $processo['dadosBasicos'];
+                $orgaoJulgador = $dadosBasicos['orgaoJulgador'];
+                $numero = $dadosBasicos['numero'];
+                $polos = $dadosBasicos['polo'];
+                $assunto = $dadosBasicos['assunto'];
+                $dados = array (
+                    'CODUSUARIO' => $params['CODUSUARIO'],
+                    'NUMEROPROCESSO' => $dadosBasicos['numero'],
+                    'APELIDO' => '',
+                    'ORGAOJULGADOR' => $orgaoJulgador['codigoOrgao'] . ' - ' .$orgaoJulgador['nomeOrgao'],
+                    'CODIGOCLASSEJUDICIAL' => $dadosBasicos['classeProcessual'],
+                    'COMPETENCIAJUDICIAL' => $dadosBasicos['competencia'],
+                    'JUIZRESPONSAVEL' => $dadosBasicos['magistradoAtuante'],
+                    'DATAHORAAUTUACAO' => $dadosBasicos['dataAjuizamento'],
+                    'EXIBIRAPP'=> 'S'
+                );
                 $helperProcesso = new HelperProcesso();
-                $helperProcesso->insert('');
+                if(!$helperProcesso->getProcessoByNumero($numero)['status']){
+                    $result = $helperProcesso->insert($dados);
+                    if($result['status']) {
+                        foreach($polos as $polo) {
+                            // TODO Fazer inserção das partes
+                            $dados_parte = array(
+
+                            );
+                        }
+                        // TODO Fazer inserção dos assuntos
+                    }
+                    return $result;
+                }
             }
         }
         return $dadosEproc;

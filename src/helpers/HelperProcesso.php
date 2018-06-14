@@ -38,6 +38,11 @@ class HelperProcesso extends HelperGeral
 
     }
 
+    public function getProcessoByNumero($numero)
+    {
+        return $this->getProcessos(["NUMEROPROCESSO" => $numero]);
+    }
+
     public function insert($dados)
     {
         $dados = $this->chavesToUpperCase($dados);
@@ -54,7 +59,7 @@ class HelperProcesso extends HelperGeral
                 return array(
                     'status'=>false,
                     'error'=>'Ocorreu um erro durante a inserção do processo no banco de dados.',
-                    'error_db'=>$e->getMessage()
+//                    'error_db'=>$e->getMessage()
                 );
             }
         }else{

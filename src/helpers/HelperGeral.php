@@ -179,7 +179,9 @@ abstract class HelperGeral
         foreach($haystack as $k=>$h) {
             if(is_array($h)) {
                 if(!empty($h)) {
-                    $this->findInArray($needle, $h);
+                    if($this->findInArray($needle, $h)){
+                        return true;
+                    };
                 }
             } else {
                 if($h === $needle) {

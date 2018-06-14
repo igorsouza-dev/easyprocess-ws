@@ -7,7 +7,7 @@
         {
           "parte": {
             "pessoa": {
-              "nome": "PROCESSO SEM PARTE R…",
+              "nome": "PROCESSO SEM PARTE R√â",
               "sexo": "D",
               "tipoPessoa": "autoridade",
               "cidadeNatural": "",
@@ -59,7 +59,7 @@
               "nome": "PAULO ROBERTO LELIS GOULART FILHO",
               "sexo": "M",
               "nomeGenitor": "PAULO ROBERTO LELIS GOULART",
-              "nomeGenitora": "ELIA SOARES GUIMAR√ES",
+              "nomeGenitora": "ELIA SOARES GUIMAR√ÉES",
               "dataNascimento": "19850104",
               "numeroDocumentoPrincipal": "78722489215",
               "tipoPessoa": "fisica",
@@ -76,7 +76,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -96,19 +96,19 @@
                 "nome": ""
               },
               "endereco": {
-                "logradouro": "RUA RODOVI¡RIA",
+                "logradouro": "RUA RODOVI√ÅRIA",
                 "numero": "530",
                 "complemento": "",
-                "bairro": "S√O JO√O",
-                "cidade": "AraguaÌna",
+                "bairro": "S√ÉO JO√ÉO",
+                "cidade": "Aragua√≠na",
                 "estado": "TO",
                 "pais": "BRASIL",
                 "cep": "77800000"
               },
-              "nome": "NATALIA LELIS GUIMAR√ES GOULART",
+              "nome": "NATALIA LELIS GUIMAR√ÉES GOULART",
               "sexo": "F",
-              "nomeGenitor": "N√O INFORMADO",
-              "nomeGenitora": "ELIA SOARES GUIMAR√ES",
+              "nomeGenitor": "N√ÉO INFORMADO",
+              "nomeGenitora": "ELIA SOARES GUIMAR√ÉES",
               "dataNascimento": "19871111",
               "numeroDocumentoPrincipal": "02415152110",
               "tipoPessoa": "fisica",
@@ -125,7 +125,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -173,7 +173,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -192,7 +192,7 @@
                 "tipoDocumento": "CMF",
                 "nome": ""
               },
-              "nome": "MAURA LELIS GUIMAR√ES GOULART",
+              "nome": "MAURA LELIS GUIMAR√ÉES GOULART",
               "sexo": "F",
               "dataNascimento": "19000101",
               "numeroDocumentoPrincipal": "02415153192",
@@ -210,7 +210,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -249,7 +249,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -288,7 +288,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -307,9 +307,9 @@
                 "tipoDocumento": "CMF",
                 "nome": ""
               },
-              "nome": "ELIA SOARES GUIMAR√ES",
+              "nome": "ELIA SOARES GUIMAR√ÉES",
               "sexo": "F",
-              "nomeGenitora": "RAULIRA PEREIRA GUIMAR√ES",
+              "nomeGenitora": "RAULIRA PEREIRA GUIMAR√ÉES",
               "dataNascimento": "19590529",
               "numeroDocumentoPrincipal": "19092040134",
               "tipoPessoa": "fisica",
@@ -326,7 +326,7 @@
                 "estado": "TO",
                 "cep": "77000000"
               },
-              "nome": "EMILLENY L¡ZARO DA SILVA SOUZA",
+              "nome": "EMILLENY L√ÅZARO DA SILVA SOUZA",
               "numeroDocumentoPrincipal": "01747694150",
               "intimacao": false,
               "tipoRepresentante": "A"
@@ -409,7 +409,7 @@
                 "cidadeNatural": "",
                 "nacionalidade": "BR"
               },
-              "nome": "MINIST…RIO P⁄BLICO",
+              "nome": "MINIST√âRIO P√öBLICO",
               "sexo": "D",
               "numeroDocumentoPrincipal": "01786078000146",
               "tipoPessoa": "juridica",
@@ -446,7 +446,7 @@
       "valorCausa": 1000,
       "orgaoJulgador": {
         "codigoOrgao": "33614",
-        "nomeOrgao": "JUIZO DO CENTRO JUDICI¡RIO DE SOLU«√O DE CONFLITOS E CIDADANIA (CEJUSC) - PALMAS",
+        "nomeOrgao": "JUIZO DO CENTRO JUDICI√ÅRIO DE SOLU√á√ÉO DE CONFLITOS E CIDADANIA (CEJUSC) - PALMAS",
         "instancia": "ORIG",
         "codigoMunicipioIBGE": 0
       },

@@ -80,22 +80,24 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
         $token = $request->getHeader('HTTP_AUTHORIZATION')[0];
 
         $token = str_replace('Bearer ', '', $token);
+
         $helperUsuario = new HelperUsuario();
         $coduser = HelperToken::getDataFromPayload('coduser', $token);
-//        echo $token;exit;
-//        echo $helperUsuario->isPremium($coduser);exit;
-        // TODO Testar busca de CPF dentro de array
+        $premium = false;
+
         $usuario = $helperUsuario->getUsuario($coduser);
         if($usuario['status']){
+            $premium = $usuario['entity']['USUARIOPREMIUM'] == 'S';
+            $params['CODUSUARIO'] = $coduser;
             $helperPessoa = new HelperPessoa();
             $pessoa = $helperPessoa->getPessoa($usuario['entity']['CODPESSOA']);
             if($pessoa['status']){
                 $params['CPF'] = $pessoa['entity']['CPF'];
             }
         }
-        $result = $helper->consultarProcesso($params, $helperUsuario->isPremium($coduser));
+        $result = $helper->consultarProcesso($params, $premium);
         if($result['status']) {
-            return $response->withJson($result['entity'], 200);
+            return $response->withJson($result, 200);
         } else {
             return $response->withJson($result, 500);
         }
