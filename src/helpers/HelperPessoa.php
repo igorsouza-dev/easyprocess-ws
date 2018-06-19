@@ -33,8 +33,7 @@ class HelperPessoa extends HelperGeral {
     public $campos_obrigatorios = array(
         'NOME',
         'DATAHORAINCLUSAO',
-        'RESPINCLUSAO',
-        'EMAIL'
+        'RESPINCLUSAO'
     );
 
     public function getPessoa($id)

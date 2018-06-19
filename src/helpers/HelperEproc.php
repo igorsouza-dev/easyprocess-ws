@@ -198,6 +198,7 @@ class HelperEproc extends HelperGeral {
         $dadosEproc = $this->requestMockada();
         $premiumUser = false;
         $this->inserePartes($dadosEproc);exit;
+        //TODO Testar inserção de processos reais
         if($premiumUser) {
 
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
@@ -249,6 +250,12 @@ class HelperEproc extends HelperGeral {
                 switch ($tipo) {
                     case 'pessoa':
                         $result = $this->inserePessoa($parte);
+                        if($result['status']) {
+                            //TODO Continuar inserção de partes
+                            $codpessoa = $result['entity']['CODPESSOA'];
+                            $helper->getPartes(['CODPESSOA'=>$codpessoa, 'CODPROCESSO'=> $dadosEproc['CODPROCESSO']]);
+
+                        }
                         break;
                     case 'advogado':
                         $result = $this->insereAdvogado($parte);
@@ -264,7 +271,8 @@ class HelperEproc extends HelperGeral {
                         'TIPOPARTE' => $tipo
                     ];
 
-                    $helper->insert($processoparte);
+                    $result = $helper->insert($processoparte);
+                    print_r($result);
                 }
             }
         }
@@ -283,10 +291,10 @@ class HelperEproc extends HelperGeral {
 
     public function inserePessoa($parte)
     {
-        echo "<br>Pessoa: ";
-        echo "<pre>";
-        print_r($parte);
-        echo "</pre>";
+//        echo "<br>Pessoa: ";
+//        echo "<pre>";
+//        print_r($parte);
+//        echo "</pre>";
         $tipo = $parte['tipoPessoa'] == 'fisica' ? 0 : 1;
 
         if(isset($parte['pessoaVinculada'])) {
@@ -299,33 +307,42 @@ class HelperEproc extends HelperGeral {
             'NATURALIDADE' => $parte['cidadeNatural'],
             'NACIONALIDADE' => $parte['nacionalidade'],
         ];
-        $helperPessoa = new HelperPessoa();
 
-        if($tipo == 0) {
-            $pessoa['CPF'] = HelperPessoa::formataCPF($parte['numeroDocumentoPrincipal']);
-            $result = $helperPessoa->getPessoas(['CPF' => $pessoa['CPF'], 'EXCLUIDO' => 'N']);
-            $pessoa['SEXO'] = $parte['sexo'];
-            $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
-            $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
-            $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
-        } else {
-            $pessoa['CNPJ'] = HelperPessoa::formataCNPJ($parte['numeroDocumentoPrincipal']);
-            $result = $helperPessoa->getPessoas(['CNPJ' => $pessoa['CNPJ'], 'EXCLUIDO' => 'N']);
-        }
-        if(isset($result['entity'])){
-            $result['entity'] = $result['entity'][0];
-        } else {
-            if(isset($parte['endereco'])) {
-                $endereco = $parte['endereco'];
-                $pessoa['ENDERECO'] = $endereco['logradouro'];
-                $pessoa['NUMERO'] = $endereco['numero'];
-                $pessoa['COMPLEMENTO'] = $endereco['complemento'];
-                $pessoa['BAIRRO'] = $endereco['bairro'];
-                $pessoa['CIDADE'] = $endereco['cidade'];
-                $pessoa['UF'] = $endereco['estado'];
-                $pessoa['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
+        $result = [
+            'status' => false,
+            'message' => 'Parte não cadastrada por não ter documento de identificação.'
+        ];
+
+        if(!empty($parte['numeroDocumentoPrincipal'])){
+            $helperPessoa = new HelperPessoa();
+            if($tipo == 0) {
+                $pessoa['CPF'] = HelperPessoa::formataCPF($parte['numeroDocumentoPrincipal']);
+                $result = $helperPessoa->getPessoas(['CPF' => $pessoa['CPF'], 'EXCLUIDO' => 'N']);
+                $pessoa['SEXO'] = $parte['sexo'];
+                $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
+                $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
+                $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
+            } else {
+                $pessoa['CNPJ'] = HelperPessoa::formataCNPJ($parte['numeroDocumentoPrincipal']);
+                $result = $helperPessoa->getPessoas(['CNPJ' => $pessoa['CNPJ'], 'EXCLUIDO' => 'N']);
             }
-            $result = $helperPessoa->insert($pessoa);
+            if(isset($result['entity'])){
+                $result['entity'] = $result['entity'][0];
+            } else {
+                if(isset($parte['endereco'])) {
+                    $endereco = $parte['endereco'];
+                    $pessoa['ENDERECO'] = $endereco['logradouro'];
+                    $pessoa['NUMERO'] = $endereco['numero'];
+                    $pessoa['COMPLEMENTO'] = $endereco['complemento'];
+                    $pessoa['BAIRRO'] = $endereco['bairro'];
+                    $pessoa['CIDADE'] = $endereco['cidade'];
+                    $pessoa['UF'] = $endereco['estado'];
+                    $pessoa['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
+                }
+                if(!empty($pessoa['CPF']) || !empty($pessoa['CNPJ'])) {
+                    $result = $helperPessoa->insert($pessoa);
+                }
+            }
         }
 
         return $result;
