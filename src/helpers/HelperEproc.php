@@ -222,8 +222,9 @@ class HelperEproc extends HelperGeral {
                 if(!$helperProcesso->getProcessoByNumero($numero)['status']) {
                     $result = $helperProcesso->insert($dados);
                     if($result['status']) {
+                        $dadosEproc['CODPROCESSO'] = $assunto['CODPROCESSO'] = $result['entity']['CODPROCESSO'];
                         $this->inserePartes($dadosEproc);
-                        // TODO Fazer inserção dos assuntos
+                        $this->insereAssunto($assunto);
                     }
                     return $result;
                 }
@@ -242,19 +243,42 @@ class HelperEproc extends HelperGeral {
         $polos = $dadosBasicos['polo'];
         foreach($polos as $polo) {
             $partes = $polo['parte'];
+            $result = [ 'status' => false ];
+            $helper = new HelperProcessoParte();
             foreach($partes as $tipo=>$parte) {
                 switch ($tipo) {
                     case 'pessoa':
-                        $this->inserePessoa($parte);
+                        $result = $this->inserePessoa($parte);
                         break;
                     case 'advogado':
-                        $this->insereAdvogado($parte);
+                        $result = $this->insereAdvogado($parte);
+                        $helper = new HelperProcessoParteProcurador();
                         break;
                     default:
                         break;
                 }
+                if($result['status']) {
+                    $processoparte = [
+                        'CODPROCESSO' => $dadosEproc['CODPROCESSO'],
+                        'CODPESSOA' => $result['entity']['CODPESSOA'],
+                        'TIPOPARTE' => $tipo
+                    ];
+
+                    $helper->insert($processoparte);
+                }
             }
         }
+    }
+
+    public function insereAssunto($assunto)
+    {
+        $helperAssunto = new HelperAssuntoProcesso();
+        $dadosAssunto = [
+            'CODPROCESSO' => $assunto['CODPROCESSO'],
+            'PRINCIPAL' => $assunto['assuntoPrincipal'] ? 'S' : 'N',
+            'CODIGONACIONAL'
+        ];
+        $helperAssunto->insert($dadosAssunto);
     }
 
     public function inserePessoa($parte)
@@ -264,35 +288,47 @@ class HelperEproc extends HelperGeral {
         print_r($parte);
         echo "</pre>";
         $tipo = $parte['tipoPessoa'] == 'fisica' ? 0 : 1;
+
+        if(isset($parte['pessoaVinculada'])) {
+            $this->inserePessoa($parte['pessoaVinculada']);
+        }
+
         $pessoa = [
             'TIPO' => $tipo,
             'NOME' => $parte['nome'],
             'NATURALIDADE' => $parte['cidadeNatural'],
             'NACIONALIDADE' => $parte['nacionalidade'],
         ];
+        $helperPessoa = new HelperPessoa();
 
         if($tipo == 0) {
             $pessoa['CPF'] = HelperPessoa::formataCPF($parte['numeroDocumentoPrincipal']);
+            $result = $helperPessoa->getPessoas(['CPF' => $pessoa['CPF'], 'EXCLUIDO' => 'N']);
             $pessoa['SEXO'] = $parte['sexo'];
             $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
             $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
             $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
         } else {
             $pessoa['CNPJ'] = HelperPessoa::formataCNPJ($parte['numeroDocumentoPrincipal']);
+            $result = $helperPessoa->getPessoas(['CNPJ' => $pessoa['CNPJ'], 'EXCLUIDO' => 'N']);
         }
-        if(isset($parte['endereco'])) {
-            $endereco = $parte['endereco'];
-            $pessoa['ENDERECO'] = $endereco['logradouro'];
-            $pessoa['NUMERO'] = $endereco['numero'];
-            $pessoa['COMPLEMENTO'] = $endereco['complemento'];
-            $pessoa['BAIRRO'] = $endereco['bairro'];
-            $pessoa['CIDADE'] = $endereco['cidade'];
-            $pessoa['UF'] = $endereco['estado'];
-            $pessoa['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
+        if(isset($result['entity'])){
+            $result['entity'] = $result['entity'][0];
+        } else {
+            if(isset($parte['endereco'])) {
+                $endereco = $parte['endereco'];
+                $pessoa['ENDERECO'] = $endereco['logradouro'];
+                $pessoa['NUMERO'] = $endereco['numero'];
+                $pessoa['COMPLEMENTO'] = $endereco['complemento'];
+                $pessoa['BAIRRO'] = $endereco['bairro'];
+                $pessoa['CIDADE'] = $endereco['cidade'];
+                $pessoa['UF'] = $endereco['estado'];
+                $pessoa['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
+            }
+            $result = $helperPessoa->insert($pessoa);
         }
-        $helperPessoa = new HelperPessoa();
-        $result = $helperPessoa->insert($pessoa);
-        print_r($result);
+
+        return $result;
     }
     public function insereAdvogado($parte)
     {

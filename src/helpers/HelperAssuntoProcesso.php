@@ -5,10 +5,10 @@ class HelperAssuntoProcesso extends HelperGeral
     public $primarykey = 'CODASSUNTOPROCESSO';
     public $campos = array(
         'CODASSUNTOPROCESSO', 'CODPROCESSO',
-        'PRINCIPAL'
+        'PRINCIPAL', 'CODIGONACIONAL'
     );
     public $campos_obrigatorios = array(
-        'CODPROCESSO', 'PRINCIPAL'
+        'CODPROCESSO', 'PRINCIPAL', 'CODIGONACIONAL'
     );
 
     public function getAssunto($id)
