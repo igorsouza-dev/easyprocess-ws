@@ -222,12 +222,7 @@ class HelperEproc extends HelperGeral {
                 if(!$helperProcesso->getProcessoByNumero($numero)['status']) {
                     $result = $helperProcesso->insert($dados);
                     if($result['status']) {
-                        foreach($polos as $polo) {
-                            // TODO Fazer inserção das partes
-                            $dados_parte = array(
-
-                            );
-                        }
+                        $this->inserePartes($dadosEproc);
                         // TODO Fazer inserção dos assuntos
                     }
                     return $result;
@@ -277,13 +272,13 @@ class HelperEproc extends HelperGeral {
         ];
 
         if($tipo == 0) {
-            $pessoa['CPF'] = self::formataCPF($parte['numeroDocumentoPrincipal']);
+            $pessoa['CPF'] = HelperPessoa::formataCPF($parte['numeroDocumentoPrincipal']);
             $pessoa['SEXO'] = $parte['sexo'];
             $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
             $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
             $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
         } else {
-            $pessoa['CNPJ'] = self::formataCNPJ($parte['numeroDocumentoPrincipal']);
+            $pessoa['CNPJ'] = HelperPessoa::formataCNPJ($parte['numeroDocumentoPrincipal']);
         }
         if(isset($parte['endereco'])) {
             $endereco = $parte['endereco'];
@@ -293,7 +288,7 @@ class HelperEproc extends HelperGeral {
             $pessoa['BAIRRO'] = $endereco['bairro'];
             $pessoa['CIDADE'] = $endereco['cidade'];
             $pessoa['UF'] = $endereco['estado'];
-            $pessoa['CEP'] = self::formaCEP($endereco['cep']);
+            $pessoa['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
         }
         $helperPessoa = new HelperPessoa();
         $result = $helperPessoa->insert($pessoa);
@@ -305,7 +300,7 @@ class HelperEproc extends HelperGeral {
 //        echo "<pre>";
 //        print_r($parte);
 //        echo "</pre>";
-
+        $advogado = [];
     }
     public function downloadAnexo($params) {
         $function = 'consultarProcesso';

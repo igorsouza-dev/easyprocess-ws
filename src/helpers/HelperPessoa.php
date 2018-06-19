@@ -10,7 +10,7 @@ class HelperPessoa extends HelperGeral {
         'NOME', 'RAZAOSOCIAL',
         'SEXO', 'DATANASCIMENTO',
         'ESTADOCIVIL', 'CPF',
-        'OAB',
+        'OAB', 'OABUF',
         'CNPJ', 'RG',
         'OERG', 'DATARG',
         'CTPS', 'CNH',
@@ -34,7 +34,6 @@ class HelperPessoa extends HelperGeral {
         'NOME',
         'DATAHORAINCLUSAO',
         'RESPINCLUSAO',
-        'OAB',
         'EMAIL'
     );
 
@@ -148,4 +147,18 @@ class HelperPessoa extends HelperGeral {
         return $this->delete($this->primarykey.' = '.$id, $responsavel);
     }
 
+    public static function formataCPF($cpf)
+    {
+        return vsprintf('%s%s%s.%s%s%s.%s%s%s-%s%s', str_split($cpf));
+    }
+
+    public static function formataCNPJ($cnpj)
+    {
+        return vsprintf('%s%s.%s%s%s.%s%s%s/%s%s%s%s-%s%s', str_split($cnpj));
+    }
+
+    public static function formataCEP($cep)
+    {
+        return vsprintf('%s%s%s%s%s-%s%s%s', str_split($cep));
+    }
 }
