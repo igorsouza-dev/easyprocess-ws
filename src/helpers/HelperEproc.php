@@ -194,7 +194,10 @@ class HelperEproc extends HelperGeral {
             'numeroProcesso'
         );
 //        $dadosEproc = $this->request($obrigInputs, $params, $function);
+        //APAGAR DEPOIS
         $dadosEproc = $this->requestMockada();
+        $premiumUser = false;
+        $this->inserePartes($dadosEproc);exit;
         if($premiumUser) {
 
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
@@ -216,7 +219,7 @@ class HelperEproc extends HelperGeral {
                     'EXIBIRAPP'=> 'S'
                 );
                 $helperProcesso = new HelperProcesso();
-                if(!$helperProcesso->getProcessoByNumero($numero)['status']){
+                if(!$helperProcesso->getProcessoByNumero($numero)['status']) {
                     $result = $helperProcesso->insert($dados);
                     if($result['status']) {
                         foreach($polos as $polo) {
@@ -235,6 +238,74 @@ class HelperEproc extends HelperGeral {
     }
     public function isAdvogadoParte($cpf, $processo) {
         return $this->findInArray($cpf, $processo);
+    }
+
+    public function inserePartes($dadosEproc)
+    {
+        $processo = $dadosEproc['processo'];
+        $dadosBasicos = $processo['dadosBasicos'];
+        $polos = $dadosBasicos['polo'];
+        foreach($polos as $polo) {
+            $partes = $polo['parte'];
+            foreach($partes as $tipo=>$parte) {
+                switch ($tipo) {
+                    case 'pessoa':
+                        $this->inserePessoa($parte);
+                        break;
+                    case 'advogado':
+                        $this->insereAdvogado($parte);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+    public function inserePessoa($parte)
+    {
+        echo "<br>Pessoa: ";
+        echo "<pre>";
+        print_r($parte);
+        echo "</pre>";
+        $tipo = $parte['tipoPessoa'] == 'fisica' ? 0 : 1;
+        $pessoa = [
+            'TIPO' => $tipo,
+            'NOME' => $parte['nome'],
+            'NATURALIDADE' => $parte['cidadeNatural'],
+            'NACIONALIDADE' => $parte['nacionalidade'],
+        ];
+
+        if($tipo == 0) {
+            $pessoa['CPF'] = self::formataCPF($parte['numeroDocumentoPrincipal']);
+            $pessoa['SEXO'] = $parte['sexo'];
+            $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
+            $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
+            $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
+        } else {
+            $pessoa['CNPJ'] = self::formataCNPJ($parte['numeroDocumentoPrincipal']);
+        }
+        if(isset($parte['endereco'])) {
+            $endereco = $parte['endereco'];
+            $pessoa['ENDERECO'] = $endereco['logradouro'];
+            $pessoa['NUMERO'] = $endereco['numero'];
+            $pessoa['COMPLEMENTO'] = $endereco['complemento'];
+            $pessoa['BAIRRO'] = $endereco['bairro'];
+            $pessoa['CIDADE'] = $endereco['cidade'];
+            $pessoa['UF'] = $endereco['estado'];
+            $pessoa['CEP'] = self::formaCEP($endereco['cep']);
+        }
+        $helperPessoa = new HelperPessoa();
+        $result = $helperPessoa->insert($pessoa);
+        print_r($result);
+    }
+    public function insereAdvogado($parte)
+    {
+//        echo "<br>Advogado: ";
+//        echo "<pre>";
+//        print_r($parte);
+//        echo "</pre>";
+
     }
     public function downloadAnexo($params) {
         $function = 'consultarProcesso';
@@ -263,4 +334,5 @@ class HelperEproc extends HelperGeral {
         );
         return $this->request($obrigInputs, $params, $function);
     }
+
 }

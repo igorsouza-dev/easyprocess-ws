@@ -191,4 +191,19 @@ abstract class HelperGeral
         }
         return false;
     }
+
+    public static function formataCPF($cpf)
+    {
+        return vsprintf('%s%s%s.%s%s%s.%s%s%s-%s%s', str_split($cpf));
+    }
+
+    public static function formataCNPJ($cnpj)
+    {
+        return vsprintf('%s%s.%s%s%s.%s%s%s/%s%s%s%s-%s%s', str_split($cnpj));
+    }
+
+    public static function formaCEP($cep)
+    {
+        return vsprintf('%s%s%s%s%s-%s%s%s', str_split($cep));
+    }
 }
