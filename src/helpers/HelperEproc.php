@@ -180,7 +180,7 @@ class HelperEproc extends HelperGeral {
 
     protected function requestMockada()
     {
-        $array = file_get_contents(__DIR__.'/mock.json');
+        $array = file_get_contents(__DIR__.'/mock2.json');
         $array = json_decode($array, true);
         return $array;
     }
@@ -194,20 +194,27 @@ class HelperEproc extends HelperGeral {
             'numeroProcesso'
         );
 //        $dadosEproc = $this->request($obrigInputs, $params, $function);
-        //APAGAR DEPOIS
+        //TODO APAGAR DEPOIS
         $dadosEproc = $this->requestMockada();
-        $premiumUser = false;
-        $this->inserePartes($dadosEproc);exit;
-        //TODO Testar inserção de processos reais
         if($premiumUser) {
-
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
                 $processo = $dadosEproc['processo'];
                 $dadosBasicos = $processo['dadosBasicos'];
                 $orgaoJulgador = $dadosBasicos['orgaoJulgador'];
                 $numero = $dadosBasicos['numero'];
-                $polos = $dadosBasicos['polo'];
-                $assunto = $dadosBasicos['assunto'];
+                $assuntos = $dadosBasicos['assunto'];
+
+                foreach($assuntos as $item) {
+                    //verifica se o primeiro item do array é também um array
+                    //se não for cria um array aninhado para ser iterado na insercao de assuntos
+                    if(!is_array($item)) {
+                        $assuntos = array('ASSUNTOS'=>array($assuntos));
+                    } else {
+                        $assuntos = array('ASSUNTOS'=>$assuntos);
+                    }
+                    break;
+                }
+
                 $dados = array (
                     'CODUSUARIO' => $params['CODUSUARIO'],
                     'NUMEROPROCESSO' => $dadosBasicos['numero'],
@@ -220,20 +227,35 @@ class HelperEproc extends HelperGeral {
                     'EXIBIRAPP'=> 'S'
                 );
                 $helperProcesso = new HelperProcesso();
-                if(!$helperProcesso->getProcessoByNumero($numero)['status']) {
+                //verifica se já existe um processo com o numero informado
+                $processoDB = $helperProcesso->getProcessoByNumero($numero);
+                if(!$processoDB['status']) {
                     $result = $helperProcesso->insert($dados);
                     if($result['status']) {
-                        $dadosEproc['CODPROCESSO'] = $assunto['CODPROCESSO'] = $result['entity']['CODPROCESSO'];
-                        $this->inserePartes($dadosEproc);
-                        $this->insereAssunto($assunto);
+                        $dadosEproc['CODPROCESSO'] = $assuntos['CODPROCESSO'] = $result['entity']['CODPROCESSO'];
+                        $partesDB = $this->inserePartes($dadosEproc);
+                        $assuntosDB = $this->insereAssunto($assuntos);
+                        $processoDB['entity']['Partes'] = $partesDB;
+                        $processoDB['entity']['Assuntos'] = $assuntosDB;
                     }
-                    return $result;
+                    $processoDB = $result;
+                } else { //processo já existe
+                    $dadosEproc['CODPROCESSO'] = $assuntos['CODPROCESSO'] = $processoDB['entity'][0]['CODPROCESSO'];
+                    $partesDB = $this->inserePartes($dadosEproc);
+                    $assuntosDB = $this->insereAssunto($assuntos);
+                    $processoDB['entity']['Partes'] = $partesDB;
+                    $processoDB['entity']['Assuntos'] = $assuntosDB;
                 }
+
+                return $processoDB;
             }
         }
         return $dadosEproc;
     }
+
     public function isAdvogadoParte($cpf, $processo) {
+        $cpf = str_replace('.', '', $cpf);
+        $cpf = str_replace('-', '', $cpf);
         return $this->findInArray($cpf, $processo);
     }
 
@@ -242,59 +264,94 @@ class HelperEproc extends HelperGeral {
         $processo = $dadosEproc['processo'];
         $dadosBasicos = $processo['dadosBasicos'];
         $polos = $dadosBasicos['polo'];
+        $results = [];
         foreach($polos as $polo) {
             $partes = $polo['parte'];
-            $result = [ 'status' => false ];
-            $helper = new HelperProcessoParte();
+            $pessoa = [ 'status' => false ];
+
             foreach($partes as $tipo=>$parte) {
+                $partesDB = ['status' => false];
+                $helper = new HelperProcessoParte();
                 switch ($tipo) {
                     case 'pessoa':
-                        $result = $this->inserePessoa($parte);
-                        if($result['status']) {
-                            //TODO Continuar inserção de partes
-                            $codpessoa = $result['entity']['CODPESSOA'];
-                            $helper->getPartes(['CODPESSOA'=>$codpessoa, 'CODPROCESSO'=> $dadosEproc['CODPROCESSO']]);
-
+                        $pessoa = $this->inserePessoa($parte);
+                        if($pessoa['status']) {
+                            $codpessoa = $pessoa['entity']['CODPESSOA'];
+                            $partesDB = $helper->getPartes([
+                                'CODPESSOA' =>$codpessoa,
+                                'CODPROCESSO' => $dadosEproc['CODPROCESSO']
+                                ]
+                            );
+                            print_r($partesDB);
                         }
                         break;
                     case 'advogado':
-                        $result = $this->insereAdvogado($parte);
+                        $pessoa = $this->insereAdvogado($parte);
                         $helper = new HelperProcessoParteProcurador();
+                        if($pessoa['status']) {
+                            $codpessoa = $pessoa['entity']['CODPESSOA'];
+                            $partesDB = $helper->getPartesProcurador([
+                                    'CODPESSOA' => $codpessoa,
+                                    'CODPROCESSO' => $dadosEproc['CODPROCESSO']
+                                ]
+                            );
+                        }
                         break;
                     default:
                         break;
                 }
-                if($result['status']) {
+                if($pessoa['status']) {
                     $processoparte = [
                         'CODPROCESSO' => $dadosEproc['CODPROCESSO'],
-                        'CODPESSOA' => $result['entity']['CODPESSOA'],
-                        'TIPOPARTE' => $tipo
+                        'CODPESSOA' => $pessoa['entity']['CODPESSOA'],
+                        'TIPOPARTE' => $tipo,
+                        'ATIVO' => 'S'
                     ];
-
-                    $result = $helper->insert($processoparte);
-                    print_r($result);
+                    if($partesDB['status']) {
+                        $partesDB['entity'] = $partesDB['entity'][0];
+                        $results[] = $partesDB;
+                    } else {
+                        $results[] = $helper->insert($processoparte);
+                    }
                 }
             }
         }
+        return $results;
     }
 
-    public function insereAssunto($assunto)
+    public function insereAssunto($assuntos)
     {
         $helperAssunto = new HelperAssuntoProcesso();
-        $dadosAssunto = [
-            'CODPROCESSO' => $assunto['CODPROCESSO'],
-            'PRINCIPAL' => $assunto['assuntoPrincipal'] ? 'S' : 'N',
-            'CODIGONACIONAL'
-        ];
-        $helperAssunto->insert($dadosAssunto);
+        if(!is_array($assuntos)) {
+            $assuntos = [$assuntos];
+        }
+        $results = [];
+        $codprocesso = $assuntos['CODPROCESSO'];
+        $assuntos = $assuntos['ASSUNTOS'];
+        foreach($assuntos as $assunto) {
+            $dadosAssunto = [
+                'CODPROCESSO' => $codprocesso,
+                'PRINCIPAL' => $assunto['principal'] == 1 ? 'S' : 'N',
+                'CODIGONACIONAL' => $assunto['codigoNacional']
+            ];
+            $assuntosDB = $helperAssunto->getAssuntos([
+                'CODPROCESSO' => $codprocesso,
+                'CODIGONACIONAL' => $assunto['codigoNacional']
+                ]
+            );
+            if($assuntosDB['status']) {
+                $result = $assuntosDB;
+                $result['entity'] = $result['entity'][0];
+            } else {
+                $result = $helperAssunto->insert($dadosAssunto);
+            }
+            $results[] = $result;
+        }
+        return $results;
     }
 
     public function inserePessoa($parte)
     {
-//        echo "<br>Pessoa: ";
-//        echo "<pre>";
-//        print_r($parte);
-//        echo "</pre>";
         $tipo = $parte['tipoPessoa'] == 'fisica' ? 0 : 1;
 
         if(isset($parte['pessoaVinculada'])) {
@@ -320,8 +377,12 @@ class HelperEproc extends HelperGeral {
                 $result = $helperPessoa->getPessoas(['CPF' => $pessoa['CPF'], 'EXCLUIDO' => 'N']);
                 $pessoa['SEXO'] = $parte['sexo'];
                 $pessoa['DATANASCIMENTO'] = $parte['dataNascimento'];
-                $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
-                $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
+
+                if(isset($parte['nomeGenitora']))
+                    $pessoa['NOMEMAE'] = $parte['nomeGenitora'];
+                if(isset($parte['nomeGenitor']))
+                    $pessoa['NOMEPAI'] = $parte['nomeGenitor'];
+
             } else {
                 $pessoa['CNPJ'] = HelperPessoa::formataCNPJ($parte['numeroDocumentoPrincipal']);
                 $result = $helperPessoa->getPessoas(['CNPJ' => $pessoa['CNPJ'], 'EXCLUIDO' => 'N']);
@@ -349,11 +410,35 @@ class HelperEproc extends HelperGeral {
     }
     public function insereAdvogado($parte)
     {
-//        echo "<br>Advogado: ";
-//        echo "<pre>";
-//        print_r($parte);
-//        echo "</pre>";
-        $advogado = [];
+        $result = [
+            'status' => false,
+            'message' => 'Parte não cadastrada por não ter documento de identificação.'
+        ];
+        if(!empty($parte['numeroDocumentoPrincipal'])) {
+            $advogado = [
+                'NOME' => $parte['nome'],
+                'CPF' => HelperPessoa::formataCPF($parte['numeroDocumentoPrincipal']),
+                'TIPO' => 0
+            ];
+            if(!empty($parte['endereco'])) {
+                $endereco = $parte['endereco'];
+                $advogado['ENDERECO'] = $endereco['logradouro'];
+                $advogado['NUMERO'] = $endereco['numero'];
+                $advogado['COMPLEMENTO'] = $endereco['complemento'];
+                $advogado['BAIRRO'] = $endereco['bairro'];
+                $advogado['CIDADE'] = $endereco['cidade'];
+                $advogado['UF'] = $endereco['estado'];
+                $advogado['CEP'] = HelperPessoa::formataCEP($endereco['cep']);
+            }
+            $helperPessoa = new HelperPessoa();
+            $result = $helperPessoa->getPessoas(['CPF' => $advogado['CPF'], 'EXCLUIDO' => 'N']);
+            if($result['status']) {
+                $result['entity'] = $result['entity'][0];
+            } else {
+                $result = $helperPessoa->insert($advogado);
+            }
+        }
+        return $result;
     }
     public function downloadAnexo($params) {
         $function = 'consultarProcesso';
