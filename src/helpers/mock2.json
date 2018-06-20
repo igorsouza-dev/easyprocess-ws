@@ -1,0 +1,233 @@
+{
+  "sucesso": true,
+  "mensagem": "Consulta realizada com sucesso",
+  "processo": {
+    "dadosBasicos": {
+      "polo": [
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "0",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "endereco": {
+                "logradouro": "Ñ INFORMADA",
+                "numero": "00",
+                "complemento": "",
+                "bairro": "Ñ INFORMADA",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "pais": "BRASIL",
+                "cep": "00000000"
+              },
+              "nome": "PROCESSO SEM PARTE REU",
+              "sexo": "M",
+              "dataNascimento": "20000101",
+              "numeroDocumentoPrincipal": "00000000000",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "assistenciaJudiciaria": false,
+            "intimacaoPendente": 0
+          },
+          "polo": "PA"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "04132430103",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "endereco": {
+                "logradouro": "48",
+                "numero": "08",
+                "complemento": "",
+                "bairro": "JARDIM AURENY III (",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "pais": "BRASIL",
+                "cep": "77062036"
+              },
+              "nome": "FRANCIVALDO CARDOSO DOS SANTOS ROCHA",
+              "sexo": "M",
+              "nomeGenitora": "ROSA CARDOSO DOS SANTOS ROCHA",
+              "dataNascimento": "19900302",
+              "numeroDocumentoPrincipal": "04132430103",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "QUADRA 604 NORTE, ALAMEDA 14, QI 07",
+                "numero": "19",
+                "complemento": "CASA 01",
+                "bairro": "PLANO DIRETOR NORTE",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77006733"
+              },
+              "nome": "GUILHERME AUGUSTO MARTINS SANTOS",
+              "numeroDocumentoPrincipal": "01970493119",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "00133261123",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "endereco": {
+                "logradouro": "QUADRA 170 LT 15",
+                "numero": "15",
+                "complemento": "",
+                "bairro": "AURENI 3",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "pais": "BRASIL",
+                "cep": "77270000"
+              },
+              "nome": "ANTONIA REJANE NASCIMENTO VILARINS",
+              "sexo": "F",
+              "nomeGenitora": "MARIA FRANCISCA CARVALHO NASCIMENTO",
+              "dataNascimento": "19811024",
+              "numeroDocumentoPrincipal": "00133261123",
+              "tipoPessoa": "fisica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "QUADRA 604 NORTE, ALAMEDA 14, QI 07",
+                "numero": "19",
+                "complemento": "CASA 01",
+                "bairro": "PLANO DIRETOR NORTE",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77006733"
+              },
+              "nome": "GUILHERME AUGUSTO MARTINS SANTOS",
+              "numeroDocumentoPrincipal": "01970493119",
+              "intimacao": false,
+              "tipoRepresentante": "A"
+            },
+            "assistenciaJudiciaria": true,
+            "intimacaoPendente": 0
+          },
+          "polo": "AT"
+        },
+        {
+          "parte": {
+            "pessoa": {
+              "documento": {
+                "codigoDocumento": "01786078000146",
+                "emissorDocumento": "0",
+                "tipoDocumento": "CMF",
+                "nome": ""
+              },
+              "pessoaVinculada": {
+                "documento": {
+                  "codigoDocumento": "34217720106",
+                  "emissorDocumento": "0",
+                  "tipoDocumento": "CMF",
+                  "nome": ""
+                },
+                "endereco": {
+                  "logradouro": "QD 404 Sul, Al. 03, L. 01, Ap. 1204, Ed. Lago Azul",
+                  "numero": "s/n",
+                  "complemento": "",
+                  "bairro": "Centro",
+                  "cidade": "Palmas",
+                  "estado": "TO",
+                  "pais": "BRASIL",
+                  "cep": "77021645"
+                },
+                "nome": "CANTIONILTON PEREIRA DA SILVA",
+                "sexo": "M",
+                "nomeGenitor": "Raimundo Pereira da Silva",
+                "nomeGenitora": "Cantionília Barbosa da Silva",
+                "dataNascimento": "19621005",
+                "numeroDocumentoPrincipal": "34217720106",
+                "tipoPessoa": "fisica",
+                "cidadeNatural": "",
+                "nacionalidade": "BR"
+              },
+              "nome": "MINISTÉRIO PÚBLICO",
+              "sexo": "D",
+              "numeroDocumentoPrincipal": "01786078000146",
+              "tipoPessoa": "juridica",
+              "cidadeNatural": "",
+              "nacionalidade": "BR"
+            },
+            "advogado": {
+              "endereco": {
+                "logradouro": "QD 404 Sul, Al. 03, L. 01, Ap. 1204, Ed. Lago Azul",
+                "numero": "s/n",
+                "complemento": "",
+                "bairro": "Centro",
+                "cidade": "Palmas",
+                "estado": "TO",
+                "cep": "77021645"
+              },
+              "nome": "CANTIONILTON PEREIRA DA SILVA",
+              "numeroDocumentoPrincipal": "34217720106",
+              "intimacao": false,
+              "tipoRepresentante": "M"
+            },
+            "assistenciaJudiciaria": false,
+            "intimacaoPendente": 0
+          },
+          "polo": "TC"
+        }
+      ],
+      "assunto": [
+        {
+          "codigoNacional": 7677,
+          "principal": true
+        },
+        {
+          "codigoNacional": 5779,
+          "principal": false
+        },
+        {
+          "codigoNacional": 5802,
+          "principal": false
+        }
+      ],
+      "magistradoAtuante": "26915413120",
+      "outroParametro": {},
+      "valorCausa": 5133,
+      "orgaoJulgador": {
+        "codigoOrgao": "33614",
+        "nomeOrgao": "JUIZO DO CENTRO JUDICIÁRIO DE SOLUÇÃO DE CONFLITOS E CIDADANIA (CEJUSC) - PALMAS",
+        "instancia": "ORIG",
+        "codigoMunicipioIBGE": 0
+      },
+      "outrosnumeros": "",
+      "numero": "00316495820168272729",
+      "competencia": 1,
+      "classeProcessual": 112,
+      "codigoLocalidade": "2729",
+      "nivelSigilo": 0,
+      "intervencaoMP": false,
+      "tamanhoProcesso": 201609,
+      "dataAjuizamento": "20160921162506"
+    }
+  }
+}

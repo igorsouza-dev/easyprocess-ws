@@ -30,8 +30,15 @@ class HelperProcessoParte extends HelperGeral
         $resultado = $this->queryWithParams($params, 'Epprocessoparte');
         if(count($resultado)){
             $partes = array();
+            $helperPessoa = new HelperPessoa();
             foreach($resultado as $parte){
-                $partes[] = $this->toArray($parte, $this->campos);
+                $arrayParte = $this->toArray($parte, $this->campos);
+                $codpessoa = $arrayParte['CODPESSOA'];
+                $pessoa = $helperPessoa->getPessoa($codpessoa);
+                if($pessoa['status']) {
+                    $arrayParte['Pessoa'] = $pessoa['entity'];
+                }
+                $partes[] = $arrayParte;
             }
             return array('status'=>true, 'entity'=>$partes);
         }else{

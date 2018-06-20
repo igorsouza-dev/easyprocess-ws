@@ -28,8 +28,28 @@ class HelperProcesso extends HelperGeral
         $resultado = $this->queryWithParams($params, 'Epprocesso');
         if(count($resultado)){
             $processos = array();
+            $helperPartes = new HelperProcessoParte();
+            $helperProcurador = new HelperProcessoParteProcurador();
+            $helperAssunto = new HelperAssuntoProcesso();
             foreach($resultado as $processo){
-                $processos[] = $this->toArray($processo, $this->campos);
+                $arrayProcesso = $this->toArray($processo, $this->campos);
+                $codprocesso = $arrayProcesso['CODPROCESSO'];
+
+                $partes = $helperPartes->getPartesByProcesso($codprocesso);
+                if($partes['status']) {
+                    $arrayProcesso['Partes'] = $partes['entity'];
+                }
+
+                $partesprocurador = $helperProcurador->getPartesProcuradorByProcesso($codprocesso);
+                if($partes['status']) {
+                    $arrayProcesso['PartesProcurador'] = $partesprocurador['entity'];
+                }
+
+                $assuntos = $helperAssunto->getAssuntosByProcesso($codprocesso);
+                if($partes['status']) {
+                    $arrayProcesso['Assuntos'] = $assuntos['entity'];
+                }
+                $processos[] = $arrayProcesso;
             }
             return array('status'=>true, 'entity'=>$processos);
         }else{

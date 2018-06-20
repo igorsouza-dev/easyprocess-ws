@@ -229,24 +229,22 @@ class HelperEproc extends HelperGeral {
                 $helperProcesso = new HelperProcesso();
                 //verifica se já existe um processo com o numero informado
                 $processoDB = $helperProcesso->getProcessoByNumero($numero);
+                $codprocesso = null;
                 if(!$processoDB['status']) {
                     $result = $helperProcesso->insert($dados);
                     if($result['status']) {
-                        $dadosEproc['CODPROCESSO'] = $assuntos['CODPROCESSO'] = $result['entity']['CODPROCESSO'];
-                        $partesDB = $this->inserePartes($dadosEproc);
-                        $assuntosDB = $this->insereAssunto($assuntos);
-                        $processoDB['entity']['Partes'] = $partesDB;
-                        $processoDB['entity']['Assuntos'] = $assuntosDB;
+                        $codprocesso = $result['entity']['CODPROCESSO'];
+                        $dadosEproc['CODPROCESSO'] = $assuntos['CODPROCESSO'] = $codprocesso;
+                        $this->inserePartes($dadosEproc);
+                        $this->insereAssunto($assuntos);
                     }
-                    $processoDB = $result;
                 } else { //processo já existe
+                    $codprocesso = $processoDB['entity'][0]['CODPROCESSO'];
                     $dadosEproc['CODPROCESSO'] = $assuntos['CODPROCESSO'] = $processoDB['entity'][0]['CODPROCESSO'];
-                    $partesDB = $this->inserePartes($dadosEproc);
-                    $assuntosDB = $this->insereAssunto($assuntos);
-                    $processoDB['entity']['Partes'] = $partesDB;
-                    $processoDB['entity']['Assuntos'] = $assuntosDB;
+                    $this->inserePartes($dadosEproc);
+                    $this->insereAssunto($assuntos);
                 }
-
+                $processoDB = $helperProcesso->getProcesso($codprocesso);
                 return $processoDB;
             }
         }
@@ -267,10 +265,10 @@ class HelperEproc extends HelperGeral {
         $results = [];
         foreach($polos as $polo) {
             $partes = $polo['parte'];
-            $pessoa = [ 'status' => false ];
 
             foreach($partes as $tipo=>$parte) {
                 $partesDB = ['status' => false];
+                $pessoa = [ 'status' => false ];
                 $helper = new HelperProcessoParte();
                 switch ($tipo) {
                     case 'pessoa':
@@ -282,7 +280,6 @@ class HelperEproc extends HelperGeral {
                                 'CODPROCESSO' => $dadosEproc['CODPROCESSO']
                                 ]
                             );
-                            print_r($partesDB);
                         }
                         break;
                     case 'advogado':
