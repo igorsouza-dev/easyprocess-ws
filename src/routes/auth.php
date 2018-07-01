@@ -44,10 +44,12 @@ $app->post('/auth', function(Request $request, Response $response){
                 $result['Pessoa'] = $pessoa['entity'];
             }
         }
-        
+
         $token = (string) $helperToken->generate($payload);
 
-        return $response->withJson(array('TOKEN'=>$token, 'entity' => $result));
+        $result['TOKEN'] = $token;
+
+        return $response->withJson($result, 200);
 
     }else{
         return $response->withJson(array('error'=>'Não foi possível validar o usuário'),401);
