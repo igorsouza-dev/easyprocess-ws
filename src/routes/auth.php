@@ -8,7 +8,7 @@ $app->post('/auth', function(Request $request, Response $response){
     $login = trim($body['LOGIN']);
     $senha = trim($body['SENHA']);
     if($login == '' || $senha == ''){
-        return $response->withJson(array('message'=>utf8_encode('Necessário informar o login e a senha')));
+        return $response->withJson(array('message'=>'Necessário informar o login e a senha'), 400);
     }
 
     $helper = new HelperUsuario();
@@ -21,7 +21,7 @@ $app->post('/auth', function(Request $request, Response $response){
                   INNER JOIN
                 OPESSOAS AS P ON (P.CODPESSOA = U.CODPESSOA AND P.EXCLUIDO = 'N' AND U.EXCLUIDO = 'N') 
             WHERE 
-              (U.LOGIN = '$login' AND U.SENHA = PASSWORD('$senha')) OR (P.EMAIL = '$login' AND U.SENHA = PASSWORD('$senha'))
+              (U.LOGIN = '{$login}' AND U.SENHA = PASSWORD('{$senha}')) OR (P.EMAIL = '{$login}' AND U.SENHA = PASSWORD('{$senha}'))
             ORDER BY CODUSUARIO DESC
             LIMIT 1";
 
@@ -37,12 +37,20 @@ $app->post('/auth', function(Request $request, Response $response){
         );
         $key = $this->get('secretkey');
         $helperToken = new HelperToken($key);
+        $helperPessoa = new HelperPessoa();
+        if($result['CODPESSOA']) {
+            $pessoa = $helperPessoa->getPessoa($result['CODPESSOA']);
+            if($pessoa['status']){
+                $result['Pessoa'] = $pessoa['entity'];
+            }
+        }
+        
         $token = (string) $helperToken->generate($payload);
 
-        return $response->withJson(array('TOKEN'=>$token));
+        return $response->withJson(array('TOKEN'=>$token, 'entity' => $result));
 
     }else{
-        return $response->withJson(array('error'=>utf8_encode('Não foi possível validar o usuário')),401);
+        return $response->withJson(array('error'=>'Não foi possível validar o usuário'),401);
     }
 });
 $app->options('/auth', function (Request $request, Response $response) {
