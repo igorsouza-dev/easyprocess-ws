@@ -11,6 +11,7 @@ class HelperCompromisso extends HelperGeral
         'CODFORNECEDOR','CODCLIENTE',
         'TITULO','SOLICITACAO',
         'DATASOLICITACAO','HORASOLICITACAO',
+        'HORAFIMSOLICITACAO',
         'EXECUTADA','OBS',
         'EXCLUIDO','DATAHORAEXCLUSAO',
         'EXCLUIDOPOR'

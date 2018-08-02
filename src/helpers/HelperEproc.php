@@ -193,9 +193,9 @@ class HelperEproc extends HelperGeral {
             'senhaConsultante',
             'numeroProcesso'
         );
-//        $dadosEproc = $this->request($obrigInputs, $params, $function);
+        $dadosEproc = $this->request($obrigInputs, $params, $function);
         //TODO APAGAR DEPOIS
-        $dadosEproc = $this->requestMockada();
+//        $dadosEproc = $this->requestMockada();
         if($premiumUser) {
             if($this->isAdvogadoParte($params['CPF'], $dadosEproc)) {
                 $processo = $dadosEproc['processo'];
