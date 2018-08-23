@@ -276,7 +276,7 @@ class HelperContas extends HelperGeral
 
                 $retorno[$tipoconta] = [
                     'QUANTIDADE'=>$total->pegaCampo('QUANTIDADE'),
-                    'TOTAL' => $total->pegaCampo('TOTAL')
+                    'TOTAL' => number_format($total->pegaCampo('TOTAL'), 2, '.', '')
                 ];
             }
             return array(
@@ -284,6 +284,24 @@ class HelperContas extends HelperGeral
                 'entity'=> $retorno
             );
         }
-        return array('status'=>false, 'error'=>'Não foram encontradas valores para os parâmetros informados.');
+        return array('status'=>false, 'error'=>'Não foram encontrados valores para os parâmetros informados.');
+    }
+
+    public function getTotaisPorMeses($codempresa, $ano, $mesini, $mesfim)
+    {
+        $ano = (int) $ano;
+        $mesini = (int) $mesini;
+        $mesfim = (int) $mesfim;
+        $totais = [];
+        for($mes=$mesini; $mes<=$mesfim; $mes++) {
+            $totaismes = $this->getTotaisPorMes($codempresa, $ano, $mes);
+            if ($totaismes['status']) {
+                $totais[$mes] = $totaismes['entity'];
+            }
+        }
+        if(!empty($totais)) {
+            return array('status'=>true, 'entity'=>$totais);
+        }
+        return array('status'=>false, 'error'=>'Não foram encontrados valores para os parâmetros informados.');
     }
 }

@@ -89,7 +89,7 @@ $app->delete('/contas/{id}', function(Request $request, Response $response) {
     }
 });
 
-//Busca de valores totais
+//Busca de valores totais por mês
 $app->get('/contas/{codempresa}/saldo/{ano}/{mes}', function(Request $request, Response $response) {
     $codemp = $request->getAttribute('codempresa');
     $ano = $request->getAttribute('ano');
@@ -98,6 +98,44 @@ $app->get('/contas/{codempresa}/saldo/{ano}/{mes}', function(Request $request, R
     $helperContas = new HelperContas();
 
     $totais = $helperContas->getTotaisPorMes($codemp, $ano, $mes);
+    if ($totais['status']) {
+        $totais = $totais['entity'];
+        return $response->withJson($totais, 200);
+    } else {
+
+        return $response->withJson($totais, 404);
+    }
+});
+
+
+//Busca de valores totais em um periodo
+$app->get('/contas/{codempresa}/saldo/{ano}/{mesini}/{mesfim}', function(Request $request, Response $response) {
+    $codemp = $request->getAttribute('codempresa');
+    $ano = $request->getAttribute('ano');
+    $mesini = $request->getAttribute('mesini');
+    $mesfim = $request->getAttribute('mesfim');
+
+    $helperContas = new HelperContas();
+
+    $totais = $helperContas->getTotaisPorMeses($codemp, $ano, $mesini, $mesfim);
+    if ($totais['status']) {
+        $totais = $totais['entity'];
+        return $response->withJson($totais, 200);
+    } else {
+
+        return $response->withJson($totais, 404);
+    }
+});
+
+
+//Busca de valores totais em um ano
+$app->get('/contas/{codempresa}/saldo/{ano}', function(Request $request, Response $response) {
+    $codemp = $request->getAttribute('codempresa');
+    $ano = $request->getAttribute('ano');
+
+    $helperContas = new HelperContas();
+
+    $totais = $helperContas->getTotaisPorMeses($codemp, $ano, 1, 12);
     if ($totais['status']) {
         $totais = $totais['entity'];
         return $response->withJson($totais, 200);
