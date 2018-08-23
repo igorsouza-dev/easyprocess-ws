@@ -251,4 +251,39 @@ class HelperContas extends HelperGeral
 
         return $this->delete($this->primarykey.' = '.$id, $responsavel);
     }
+
+    public function getTotaisPorMes($codempresa, $ano, $mes)
+    {
+        $ano = (int) $ano;
+        $mes = (int) $mes;
+        $sql = "SELECT
+                      COUNT(CODCONTA) AS QUANTIDADE, SUM(VALOR) AS TOTAL, TIPOCONTA
+                  FROM
+                      MCONTAS
+                  WHERE
+                      EXCLUIDO = 'N'
+                    AND SITUACAO = 1
+                    AND {$ano} = YEAR(DATABAIXA)
+                    AND {$mes} = MONTH(DATABAIXA)
+                    AND CODEMPRESA ={$codempresa}
+                    GROUP BY TIPOCONTA";
+
+        $totais = $this->query($sql, "Mcontas");
+        if(count($totais)) {
+            $retorno = [];
+            foreach($totais as $total) {
+                $tipoconta = $total->pegaCampo('TIPOCONTA') == 'P' ? 'PAGAMENTOS' : 'RECEBIMENTOS';
+
+                $retorno[$tipoconta] = [
+                    'QUANTIDADE'=>$total->pegaCampo('QUANTIDADE'),
+                    'TOTAL' => $total->pegaCampo('TOTAL')
+                ];
+            }
+            return array(
+                'status'=> true,
+                'entity'=> $retorno
+            );
+        }
+        return array('status'=>false, 'error'=>'Não foram encontradas valores para os parâmetros informados.');
+    }
 }

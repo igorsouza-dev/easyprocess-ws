@@ -88,3 +88,21 @@ $app->delete('/contas/{id}', function(Request $request, Response $response) {
         return $response->withJson($conta,404);
     }
 });
+
+//Busca de valores totais
+$app->get('/contas/{codempresa}/saldo/{ano}/{mes}', function(Request $request, Response $response) {
+    $codemp = $request->getAttribute('codempresa');
+    $ano = $request->getAttribute('ano');
+    $mes = $request->getAttribute('mes');
+
+    $helperContas = new HelperContas();
+
+    $totais = $helperContas->getTotaisPorMes($codemp, $ano, $mes);
+    if ($totais['status']) {
+        $totais = $totais['entity'];
+        return $response->withJson($totais, 200);
+    } else {
+
+        return $response->withJson($totais, 404);
+    }
+});
