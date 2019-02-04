@@ -167,7 +167,7 @@ class HelperContas extends HelperGeral
                                 );
                             }
                         }
-                        return $arrayparcelas;
+                        return array('status'=>true, 'entity'=>$arrayparcelas);
                     }
                     return $inserido;
                 }

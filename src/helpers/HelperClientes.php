@@ -130,8 +130,7 @@ class HelperClientes extends HelperGeral
                     'error_db'=>$e->getMessage()
                 );
             }
-        }
-        else {
+        } else {
             return $validou;
         }
         return array('status'=>false, 'error'=>'Não foi possível cadastrar cliente');
