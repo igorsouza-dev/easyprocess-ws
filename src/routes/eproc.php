@@ -89,6 +89,11 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
         if($usuario['status']){
             $premium = $usuario['entity']['USUARIOPREMIUM'] == 'S';
             $params['CODUSUARIO'] = $coduser;
+            if(!isset($params['idConsultante'])) {
+                $params['idConsultante'] = $usuario['entity']['IDCONSULTANTE'];
+                $params['senhaConsultante'] = $usuario['entity']['SENHACONSULTANTE'];
+            }
+
             $helperPessoa = new HelperPessoa();
             $pessoa = $helperPessoa->getPessoa($usuario['entity']['CODPESSOA']);
             if($pessoa['status']){
