@@ -161,7 +161,13 @@ abstract class HelperGeral
         }
         return array('status'=>true);
     }
-
+    public function decodificaCaracteres($dados)
+    {
+        foreach($dados as $k=>$dado){
+            $dados[$k] = utf8_decode($dado);
+        }
+        return $dados;
+    }
     public function removeCamposInvalidos($dados, $camposvalidos)
     {
         $dados = $this->chavesToUpperCase($dados);

@@ -115,6 +115,8 @@ class HelperAnotacoes extends HelperGeral
         if ($validou['status']) {
             try {
                 $dadosOcorrencia = $this->chavesToLowerCase($dadosOcorrencia);
+                $dadosOcorrencia = $this->decodificaCaracteres($dadosOcorrencia);
+
                 $inserido = $ocorrencia->insert($dadosOcorrencia);
                 if ($inserido) {
                     $ocorrencia = $this->getAnotacao($inserido);
@@ -170,6 +172,7 @@ class HelperAnotacoes extends HelperGeral
                     return array('status'=>true, 'message'=>'Dados excluídos com sucesso.');
                 }
             } else {
+                $dados = $this->decodificaCaracteres($dados);
                 $atualizado = $entity->update($dados, $where);
                 if($atualizado){
                     return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

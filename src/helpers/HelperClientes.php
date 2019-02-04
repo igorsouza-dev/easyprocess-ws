@@ -37,7 +37,16 @@ class HelperClientes extends HelperGeral
         if(count($resultado)){
             $clientes = array();
             foreach($resultado as $cliente){
-                $clientes[] = $this->toArray($cliente, $this->campos);
+                $array = $this->toArray($cliente, $this->campos);
+                $helperPessoa = new HelperPessoa();
+                if($array['CODPESSOA']) {
+                    $pessoa = $helperPessoa->getPessoa($array['CODPESSOA']);
+                    if($pessoa['status']){
+                        $array['Pessoa'] = $pessoa['entity'];
+                    }
+                }
+                $clientes[] = $array;
+
             }
             return array('status'=>true, 'entity'=>$clientes);
         }else{
@@ -83,7 +92,18 @@ class HelperClientes extends HelperGeral
 
             $dadosCliente[$helperPessoa->primarykey] = $codpessoa;
         } else {
-            return array('status'=>false, 'error'=>'Não foi informada uma pessoa');
+            if(isset($dados['Pessoa'])) {
+                $dadosPessoa = $dados['Pessoa'];
+                $pessoa = $helperPessoa->insert($dadosPessoa);
+                if($pessoa['status']){
+                    $pessoa = $pessoa['entity'];
+                    $dadosCliente['CODPESSOA'] = $pessoa['CODPESSOA'];
+                } else {
+                    return $pessoa;
+                }
+            } else {
+                return array('status'=>false, 'error'=>'Não foi informada uma pessoa');
+            }
         }
 
         if (!isset($dados['RESPINCLUSAO'])) {
@@ -96,6 +116,8 @@ class HelperClientes extends HelperGeral
         if ($validou['status']) {
             try {
                 $dadosCliente = $this->chavesToLowerCase($dadosCliente);
+                $dadosCliente = $this->decodificaCaracteres($dadosCliente);
+
                 $inserido = $cliente->insert($dadosCliente);
                 if ($inserido) {
                     $cliente = $this->getCliente($inserido);
@@ -153,6 +175,8 @@ class HelperClientes extends HelperGeral
                     return array('status'=>true, 'message'=>'Dados excluídos com sucesso.');
                 }
             } else {
+                $dados = $this->decodificaCaracteres($dados);
+
                 $atualizado = $entity->update($dados, $where);
                 if($atualizado){
                     return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

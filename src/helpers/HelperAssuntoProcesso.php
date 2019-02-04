@@ -54,6 +54,7 @@ class HelperAssuntoProcesso extends HelperGeral
         $validou = $this->verificaCamposObrigatorios($dados_assunto, $this->campos_obrigatorios);
         if($validou['status']){
             try{
+                $dados_assunto = $this->decodificaCaracteres($dados_assunto);
                 $inserido = $assuntoprocesso->insert($dados_assunto);
                 $assuntoprocesso = $this->getAssunto($inserido);
                 return $assuntoprocesso;
@@ -77,6 +78,7 @@ class HelperAssuntoProcesso extends HelperGeral
 
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

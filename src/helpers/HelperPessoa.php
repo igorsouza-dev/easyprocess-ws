@@ -62,7 +62,61 @@ class HelperPessoa extends HelperGeral {
             return array('status'=>false, 'error'=>'Não foram encontradas pessoas com os dados informados.');
         }
     }
+    public function findByCpf($cpf)
+    {
+        $params = [
+            'EXCLUIDO'=>'N',
+            'CPF'=>trim($cpf)
+        ];
+        $result = $this->getPessoas($params);
+        if($result['status']){
+            $result['entity'] = $result['entity'][0];
+        }
+        return $result;
+    }
 
+    function validaCPF($cpf)
+    {
+        $cpf = str_replace('.', '', $cpf);
+        $cpf = str_replace('-', '', $cpf);
+
+        $cpf = str_pad(preg_replace('/[^0-9]/', '', $cpf), 11, '0', STR_PAD_LEFT);
+
+
+        if (strlen($cpf) != 11 || $cpf == '00000000000' || $cpf == '11111111111' || $cpf == '22222222222' || $cpf == '33333333333' || $cpf == '44444444444' || $cpf == '55555555555' || $cpf == '66666666666' || $cpf == '77777777777' || $cpf == '88888888888' || $cpf == '99999999999')
+        {
+            return false;
+        }
+        else
+        {   // Calcula os números para verificar se o CPF é verdadeiro
+            for ($t = 9; $t < 11; $t++) {
+                for ($d = 0, $c = 0; $c < $t; $c++) {
+                    $d += $cpf{$c} * (($t + 1) - $c);
+                }
+
+                $d = ((10 * $d) % 11) % 10;
+
+                if ($cpf{$c} != $d) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
+    public function findByEmail($email)
+    {
+        $params = [
+            'EXCLUIDO'=>'N',
+            'EMAIL'=>trim($email)
+        ];
+        $result = $this->getPessoas($params);
+        if($result['status']){
+            $result['entity'] = $result['entity'][0];
+        }
+        return $result;
+    }
     public function insert($dados)
     {
         $dados = $this->chavesToUpperCase($dados);
@@ -76,7 +130,9 @@ class HelperPessoa extends HelperGeral {
         $validou = $this->verificaCamposObrigatorios($dados_pessoa, $this->campos_obrigatorios);
         if($validou['status']){
             try{
+                $dados_pessoa = $this->decodificaCaracteres($dados_pessoa);
                 $inserido = $pessoa->insert($dados_pessoa);
+
                 $pessoa = $this->getPessoa($inserido);
                 return $pessoa;
             }catch (Exception $e){
@@ -86,7 +142,8 @@ class HelperPessoa extends HelperGeral {
             return $validou;
         }
     }
-    public function update($dados, $where=''){
+    public function update($dados, $where='')
+    {
         $entity = new Opessoas();
 
         if($where == ''){
@@ -116,7 +173,7 @@ class HelperPessoa extends HelperGeral {
         }
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
-
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

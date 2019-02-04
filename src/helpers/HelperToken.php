@@ -25,7 +25,7 @@ class HelperToken{
             ->setSubject($this->user)
             ->setIssuedAt(time())
             ->setNotBefore(time())
-            ->setExpiration(time() + 3600)
+            ->setExpiration(time() + 3600 * 24)
             ->sign($signer, $this->key)
             ->getToken();
         return $token;

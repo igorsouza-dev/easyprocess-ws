@@ -63,6 +63,7 @@ class HelperProcessoParte extends HelperGeral
         $validou = $this->verificaCamposObrigatorios($dados_parte, $this->campos_obrigatorios);
         if($validou['status']){
             try{
+                $dados_parte = $this->decodificaCaracteres($dados_parte);
                 $inserido = $parte->insert($dados_parte);
                 $parte = $this->getParte($inserido);
                 return $parte;
@@ -86,6 +87,7 @@ class HelperProcessoParte extends HelperGeral
 
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

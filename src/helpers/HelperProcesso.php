@@ -72,6 +72,7 @@ class HelperProcesso extends HelperGeral
         $validou = $this->verificaCamposObrigatorios($dados_processo, $this->campos_obrigatorios);
         if($validou['status']){
             try{
+                $dados_processo = $this->decodificaCaracteres($dados_processo);
                 $inserido = $processo->insert($dados_processo);
                 $processo = $this->getProcesso($inserido);
                 return $processo;
@@ -87,7 +88,8 @@ class HelperProcesso extends HelperGeral
         }
     }
 
-    public function update($dados, $where=''){
+    public function update($dados, $where='')
+    {
         $entity = new Epprocesso();
 
         if($where == ''){
@@ -98,7 +100,7 @@ class HelperProcesso extends HelperGeral
 
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
-
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

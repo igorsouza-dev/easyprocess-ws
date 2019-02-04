@@ -61,7 +61,8 @@ class HelperEmpresa extends HelperGeral
         }
     }
 
-    public function insert($dados) {
+    public function insert($dados)
+    {
         $empresa = new Oempresa();
 
         $dados_empresa = $this->removeCamposInvalidos($dados, $this->campos);
@@ -105,6 +106,8 @@ class HelperEmpresa extends HelperGeral
 
         if ($validou['status']) {
             try {
+                $dados_empresa = $this->decodificaCaracteres($dados_empresa);
+
                 $inserido = $empresa->insert($dados_empresa);
                 if ($inserido) {
                     $empresa = $this->getEmpresa($inserido);
@@ -128,7 +131,8 @@ class HelperEmpresa extends HelperGeral
         return array('status'=>false, 'error'=>'Não foi possível cadastrar a empresa');
     }
 
-    public function update($dados, $where=''){
+    public function update($dados, $where='')
+    {
         $entity = new Oempresa();
 
         if($where == ''){
@@ -159,7 +163,7 @@ class HelperEmpresa extends HelperGeral
         }
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
-
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

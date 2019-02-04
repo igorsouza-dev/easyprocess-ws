@@ -29,6 +29,7 @@ $app->post('/auth', function(Request $request, Response $response){
 
     if(count($result)){
         $result = $helper->toArray($result[0], $helper->campos);
+        unset($result['SENHA']);
         $login = $result['LOGIN'];
         $codusuario = $result['CODUSUARIO'];
         $payload = array(
@@ -62,11 +63,50 @@ $app->options('/auth', function (Request $request, Response $response) {
 $app->post('/auth/new', function(Request $request, Response $response){
     $dados = $request->getParsedBody();
     $helperUsuario = new HelperUsuario();
+
+    $login = trim($dados['LOGIN']);
+
+    if($login == ''){
+        return $response->withJson(array('status'=>false,'message'=>'Necessário informar o login e a senha'), 400);
+    }
+
+    if($helperUsuario->findByLogin($login)['status']) {
+        return $response->withJson(array('status'=>false,'message'=>'Usuário informado já está sendo utilizado.'), 400);
+    }
+
+    $email = trim($dados['EMAIL']);
+    if($email == '') {
+        return $response->withJson(array('status'=>false,'message'=>'Necessário informar o email.'), 400);
+    } else {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return $response->withJson(array('status'=>false,'message'=>'Email informado é inválido.'), 400);
+        }
+    }
+
+    $helperPessoa = new HelperPessoa();
+    if($helperPessoa->findByEmail($email)['status']) {
+        return $response->withJson(array('status'=>false,'message'=>'Email já está sendo utilizado.'), 400);
+    }
+
+    $cpf = trim($dados['CPF']);
+
+    if($cpf == '') {
+        return $response->withJson(array('status'=>false,'message'=>'Necessário informar o CPF.'), 400);
+    } else {
+        if(!$helperPessoa->validaCPF($cpf)) {
+            return $response->withJson(array('status'=>false,'message'=>'CPF informado é inválido.'), 400);
+        }
+    }
+
+    if($helperPessoa->findByCpf($cpf)['status']) {
+        return $response->withJson(array('status'=>false,'message'=>'CPF já possui um cadastrado no sistema.'), 400);
+    }
     $result = $helperUsuario->insert($dados);
     if($result['status']){
         $key = $this->get('secretkey');
         $helperToken = new HelperToken($key);
         $usuario = $result['entity'];
+        unset($usuario['SENHA']);
         $usuario['TOKEN'] = (string) $helperToken->generate($usuario['LOGIN']);
         return $response->withJson($usuario, 201);
     }else{

@@ -61,6 +61,8 @@ class HelperProcessoParteProcurador extends HelperGeral
         $validou = $this->verificaCamposObrigatorios($dados_parte_procurador, $this->campos_obrigatorios);
         if($validou['status']){
             try{
+                $dados_parte_procurador = $this->decodificaCaracteres($dados_parte_procurador);
+
                 $inserido = $parteprocurador->insert($dados_parte_procurador);
                 $parteprocurador = $this->getParteProcurador($inserido);
                 return $parteprocurador;
@@ -84,6 +86,7 @@ class HelperProcessoParteProcurador extends HelperGeral
 
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
+            $dados = $this->decodificaCaracteres($dados);
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');

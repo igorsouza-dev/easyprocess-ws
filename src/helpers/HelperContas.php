@@ -8,7 +8,7 @@ class HelperContas extends HelperGeral
         'CODUSUARIO', 'CODPROCESSO',
         'CODCLIENTE', 'CODFORNECEDOR',
         'CONTRATO', 'NUMERONOTA',
-        'DESCRICAO', 'DATANOTA',
+        'DESCRICAO', 'DATADANOTA',
         'DATAVENCIMENTO', 'DATABAIXA',
         'VALORTOTAL',
 //        'FIXA', 'PERCENTAGEMJUROS',
@@ -61,7 +61,8 @@ class HelperContas extends HelperGeral
         }
     }
 
-    public function insert($dados) {
+    public function insert($dados)
+    {
         $conta = new Mcontas();
         $dadosConta = $this->removeCamposInvalidos($dados, $this->campos);
 
@@ -132,6 +133,7 @@ class HelperContas extends HelperGeral
         if ($validou['status']) {
             try {
                 $dadosConta = $this->chavesToLowerCase($dadosConta);
+                $dadosConta = $this->decodificaCaracteres($dadosConta);
 
                 $inserido = $conta->insert($dadosConta);
                 if ($inserido) {
@@ -212,6 +214,7 @@ class HelperContas extends HelperGeral
 
         try{
             $dados = $this->chavesToLowerCase($dados);
+            $dados = $this->decodificaCaracteres($dados);
             if ($isExclusao) {
                 $excluido = $entity->delete($where);
                 if($excluido){

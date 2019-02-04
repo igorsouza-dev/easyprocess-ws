@@ -69,6 +69,8 @@ class HelperCompromisso extends HelperGeral
             try{
                 $compromisso->setCodempresa($dados_compromisso['CODEMPRESA']);
                 $dados_compromisso = $this->chavesToLowerCase($dados_compromisso);
+                $dados_compromisso = $this->decodificaCaracteres($dados_compromisso);
+
                 $inserido = $compromisso->insert($dados_compromisso);
                 $compromisso = $this->getCompromisso($inserido);
                 return $compromisso;
@@ -85,7 +87,8 @@ class HelperCompromisso extends HelperGeral
     }
 
 
-    public function update($dados, $where=''){
+    public function update($dados, $where='')
+    {
         $entity = new Mordendeservico();
 
         if($where == ''){
@@ -117,6 +120,7 @@ class HelperCompromisso extends HelperGeral
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
             $dados = $this->chavesToLowerCase($dados);
+            $dados = $this->decodificaCaracteres($dados);
             if ($isExclusao) {
                 $excluido = $entity->delete($where);
                 if($excluido){

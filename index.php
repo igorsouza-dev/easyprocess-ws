@@ -62,8 +62,10 @@ $app->add(function ($req, $res, $next) {
 });
 
 $app->get('/', function(Request $request, Response $response){
+    print_r($request->getQueryParams());
     return $response->getBody()->write("Webservice OK");
 });
+
 
 require 'src/routes/usuarios.php';
 require 'src/routes/pessoas.php';

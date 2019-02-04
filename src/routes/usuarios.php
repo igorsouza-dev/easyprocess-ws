@@ -4,7 +4,7 @@ use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 //busca todos os usuarios
-$app->get('/usuarios', function(Request $request, Response $response){
+/*$app->get('/usuarios', function(Request $request, Response $response){
 
     $params = $request->getQueryParams();
     $helperUsuario = new HelperUsuario();
@@ -14,7 +14,7 @@ $app->get('/usuarios', function(Request $request, Response $response){
     }else{
         return $response->withJson($resultado, 404);
     }
-});
+});*/
 
 $app->options('/usuarios', function (Request $request, Response $response) {
     return $response->withStatus(200);

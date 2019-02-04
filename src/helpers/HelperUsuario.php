@@ -27,7 +27,7 @@ class HelperUsuario extends HelperGeral
         'SENHA',
         'ALTERALOGIN',
         'TIPO',
-        'USUARIOPREMIUM'
+//        'USUARIOPREMIUM'
     );
 
     public function getUsuario($id)
@@ -56,6 +56,19 @@ class HelperUsuario extends HelperGeral
         }else{
             return array('status'=>false, 'error'=>'Não foram encontrados usuários com os dados informados.');
         }
+    }
+
+    public function findByLogin($login) {
+        $params = array(
+            'LOGIN'=>$login,
+            'EXCLUIDO'=>"N"
+        );
+
+        $result = $this->getUsuarios($params);
+        if(isset($result['entity'])){
+            $result['entity'] = $result['entity'][0];
+        }
+        return $result;
     }
 
     public function insert($dados)
@@ -127,6 +140,7 @@ class HelperUsuario extends HelperGeral
 
         if($validou['status']){
             try{
+                $dados_usuario = $this->decodificaCaracteres($dados_usuario);
                 $inserido = $usuario->insert($dados_usuario);
                 if($inserido) {
                     $usuario = $this->getUsuario($inserido);
@@ -149,7 +163,8 @@ class HelperUsuario extends HelperGeral
         return array('status'=>false, 'error'=>'Não foi possível inserir o usuário no banco de dados.');
     }
 
-    public function update($dados, $where=''){
+    public function update($dados, $where='')
+    {
         $entity = new Ousuarios();
         if($where == ''){
             if(isset($dados[$this->primarykey])){
@@ -176,6 +191,8 @@ class HelperUsuario extends HelperGeral
         }
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
+            $dados = $this->decodificaCaracteres($dados);
+
             $atualizado = $entity->update($dados, $where);
             if($atualizado){
                 return array('status'=>true, 'message'=>'Dados atualizados com sucesso.');
