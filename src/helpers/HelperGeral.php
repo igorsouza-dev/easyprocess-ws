@@ -2,6 +2,7 @@
 
 abstract class HelperGeral
 {
+    public $campos;
     public function getUri()
     {
         if(isset($_SERVER['HTTPS'])){
@@ -26,6 +27,7 @@ abstract class HelperGeral
 
     public function queryWithParams($params, $tabela)
     {
+        $params = $this->removeCamposInvalidos($params, $this->campos);
         $from = strtoupper($tabela);
         $orderby = '';
         if(array_key_exists('orderby', $params)){
