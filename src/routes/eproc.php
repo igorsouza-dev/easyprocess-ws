@@ -68,6 +68,31 @@ $app->options('/eproc/consultarAvisosPendentes', function (Request $request, Res
 $app->get('/eproc/consultarProcesso', function(Request $request, Response $response){
     $helper = new HelperEproc();
     $params = $request->getQueryParams();
+
+    $token = $request->getHeader('HTTP_AUTHORIZATION')[0];
+
+    $token = str_replace('Bearer ', '', $token);
+
+    $helperUsuario = new HelperUsuario();
+    $coduser = HelperToken::getDataFromPayload('coduser', $token);
+    $premium = false;
+
+    $usuario = $helperUsuario->getUsuario($coduser);
+    if($usuario['status']){
+        $premium = $usuario['entity']['USUARIOPREMIUM'] == 'S';
+        $params['CODUSUARIO'] = $coduser;
+        if(!isset($params['idConsultante'])) {
+            $params['idConsultante'] = $usuario['entity']['IDCONSULTANTE'];
+            $params['senhaConsultante'] = $usuario['entity']['SENHACONSULTANTE'];
+        }
+
+        $helperPessoa = new HelperPessoa();
+        $pessoa = $helperPessoa->getPessoa($usuario['entity']['CODPESSOA']);
+        if($pessoa['status']){
+            $params['CPF'] = $pessoa['entity']['CPF'];
+        }
+    }
+
     if(isset($params['documento'])) {
         $file = $helper->downloadAnexo($params);
         if($file['status']) {
@@ -77,29 +102,7 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
             return $response->withJson($file, 500);
         }
     } else {
-        $token = $request->getHeader('HTTP_AUTHORIZATION')[0];
 
-        $token = str_replace('Bearer ', '', $token);
-
-        $helperUsuario = new HelperUsuario();
-        $coduser = HelperToken::getDataFromPayload('coduser', $token);
-        $premium = false;
-
-        $usuario = $helperUsuario->getUsuario($coduser);
-        if($usuario['status']){
-            $premium = $usuario['entity']['USUARIOPREMIUM'] == 'S';
-            $params['CODUSUARIO'] = $coduser;
-            if(!isset($params['idConsultante'])) {
-                $params['idConsultante'] = $usuario['entity']['IDCONSULTANTE'];
-                $params['senhaConsultante'] = $usuario['entity']['SENHACONSULTANTE'];
-            }
-
-            $helperPessoa = new HelperPessoa();
-            $pessoa = $helperPessoa->getPessoa($usuario['entity']['CODPESSOA']);
-            if($pessoa['status']){
-                $params['CPF'] = $pessoa['entity']['CPF'];
-            }
-        }
         $result = $helper->consultarProcesso($params, $premium);
         if($result['status']) {
             return $response->withJson($result, 200);
