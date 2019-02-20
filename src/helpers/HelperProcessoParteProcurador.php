@@ -5,7 +5,11 @@ class HelperProcessoParteProcurador extends HelperGeral
     public $primarykey = 'CODPROCESSOPARTEPROCURADOR';
     public $campos = array(
         'CODPROCESSOPARTEPROCURADOR', 'CODPROCESSO',
-        'CODPESSOA', 'ATIVO'
+        'CODPESSOA', 'ATIVO',
+        'DATAHORAEXCLUSAO', 'EXCLUIDO',
+        'EXCLUIDOPOR', 'DATAHORAALTERACAO',
+        'RESPALTERACAO', 'DATAHORAINCLUSAO'.
+        'RESPINCLUSAO'
     );
 
     public $campos_obrigatorios = array(
@@ -16,7 +20,8 @@ class HelperProcessoParteProcurador extends HelperGeral
     public function getParteProcurador($id)
     {
         $params = array(
-            $this->primarykey => $id
+            $this->primarykey => $id,
+            'EXCLUIDO'=>"N"
         );
         $result = $this->getPartesProcurador($params);
         if(isset($result['entity'])){
@@ -48,7 +53,8 @@ class HelperProcessoParteProcurador extends HelperGeral
     public function getPartesProcuradorByProcesso($codprocesso)
     {
         $params = array(
-            'CODPROCESSO'=>$codprocesso
+            'CODPROCESSO'=>$codprocesso,
+            'EXCLUIDO'=>"N"
         );
         return $this->getPartesProcurador($params);
     }
@@ -57,7 +63,10 @@ class HelperProcessoParteProcurador extends HelperGeral
         $dados = $this->chavesToUpperCase($dados);
         $parteprocurador = new Epprocessoparteprocurador();
         $dados_parte_procurador = $this->removeCamposInvalidos($dados, $this->campos);
-
+        $dados_parte_procurador['DATAHORAINCLUSAO'] = date( 'Y-m-d H:i:s');
+        if(!isset($dados['RESPINCLUSAO'])){
+            $dados_parte_procurador['RESPINCLUSAO'] = 'APP EasyProcess';
+        }
         $validou = $this->verificaCamposObrigatorios($dados_parte_procurador, $this->campos_obrigatorios);
         if($validou['status']){
             try{
@@ -83,7 +92,24 @@ class HelperProcessoParteProcurador extends HelperGeral
                 $where = $this->primarykey.' = '.$dados[$this->primarykey];
             }
         }
+        $isExclusao = false;
+        if(isset($dados['EXCLUIDO'])){
+            $isExclusao = $dados['EXCLUIDO'] == 'S';
 
+            if($isExclusao){
+                if(!isset($dados['EXCLUIDOPOR'])){
+                    $dados['EXCLUIDOPOR'] = 'APP EasyProcess';
+                }
+            }
+        }
+
+        if(!$isExclusao){
+            $dados['DATAHORAALTERACAO'] = date('Y-m-d H:i:s');
+
+            if(!array_key_exists('RESPALTERACAO', $dados)){
+                $dados['RESPALTERACAO'] = 'APP EasyProcess';
+            }
+        }
         $dados = $this->removeCamposInvalidos($dados, $this->campos);
         try{
             $dados = $this->decodificaCaracteres($dados);
@@ -95,6 +121,26 @@ class HelperProcessoParteProcurador extends HelperGeral
             return array('status'=>false, 'error'=>'Ocorreu um erro ao atualizar os dados da parte do procurador do processo no banco de dados.');
         }
         return array('status'=>false, 'error'=>'Não foi possível atualizar os dados da parte do procurador do processo.');
+    }
+
+    public function delete($where = '', $responsavel = '')
+    {
+        $dados['EXCLUIDO'] = 'S';
+        if($responsavel == ''){
+            $responsavel = 'APP EasyProcess';
+        }
+        $dados['EXCLUIDOPOR'] = $responsavel;
+        $dados['DATAHORAEXCLUSAO'] = date('Y-m-d H:i:s');
+
+        return $this->update($dados, $where);
+    }
+    public function deleteById($id, $responsavel = '')
+    {
+        if($responsavel == ''){
+            $responsavel = 'APP EasyProcess';
+        }
+
+        return $this->delete($this->primarykey.' = '.$id, $responsavel);
     }
 
 }

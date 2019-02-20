@@ -74,11 +74,30 @@ $app->put('/processos/{id}', function(Request $request, Response $response){
     }
 });
 
-//Processos não são deletados
-//$app->delete('/processos/{id}', function(Request $request, Response $response){
-//
-//    return $response->getBody()->write('Deletar processo');
-//});
+$app->delete('/processos/{id}', function(Request $request, Response $response) {
+    $dados_body = $request->getParsedBody();
+
+    $id = $request->getAttribute('id');
+
+    $responsavel = '';
+    if(array_key_exists('EXCLUIDOPOR', $dados_body)){
+        $responsavel = $dados_body['EXCLUIDOPOR'];
+    }
+    $helperProcesso = new HelperProcesso();
+
+    $processo = $helperProcesso->getProcesso($id);
+    if($processo['status']){
+        $resultado = $helperProcesso->deleteById($id, $responsavel);
+        if($resultado['status']){
+            $helperProcesso->deleteChildren($id);
+            return $response->withJson(array('message'=>'Exclusão realizada com sucesso.'), 200);
+        }else{
+            return $response->withJson($resultado, 500);
+        }
+    }else{
+        return $response->withJson($processo,404);
+    }
+});
 
 /** ASSUNTOS DOS PROCESSOS */
 $app->get('/assuntosprocesso', function(Request $request, Response $response){
@@ -195,6 +214,29 @@ $app->put('/parteprocurador/{id}', function(Request $request, Response $response
     }
 });
 
+$app->delete('/parteprocurador/{id}', function(Request $request, Response $response) {
+    $dados_body = $request->getParsedBody();
+
+    $id = $request->getAttribute('id');
+
+    $responsavel = '';
+    if(array_key_exists('EXCLUIDOPOR', $dados_body)){
+        $responsavel = $dados_body['EXCLUIDOPOR'];
+    }
+    $helper = new HelperProcessoParteProcurador();
+
+    $compromisso = $helper->getParteProcurador($id);
+    if($compromisso['status']){
+        $resultado = $helper->deleteById($id, $responsavel);
+        if($resultado['status']){
+            return $response->withJson(array('message'=>'Exclusão realizada com sucesso.'), 200);
+        }else{
+            return $response->withJson($resultado, 500);
+        }
+    }else{
+        return $response->withJson($compromisso,404);
+    }
+});
 /** PARTE */
 $app->get('/parte', function(Request $request, Response $response){
     $params = $request->getQueryParams();
@@ -250,5 +292,30 @@ $app->put('/parte/{id}', function(Request $request, Response $response){
         return $response->withJson($resultado, 200);
     }else{
         return $response->withJson($resultado, 404);
+    }
+});
+
+
+$app->delete('/parte/{id}', function(Request $request, Response $response) {
+    $dados_body = $request->getParsedBody();
+
+    $id = $request->getAttribute('id');
+
+    $responsavel = '';
+    if(array_key_exists('EXCLUIDOPOR', $dados_body)){
+        $responsavel = $dados_body['EXCLUIDOPOR'];
+    }
+    $helper = new HelperProcessoParte();
+
+    $compromisso = $helper->getParte($id);
+    if($compromisso['status']){
+        $resultado = $helper->deleteById($id, $responsavel);
+        if($resultado['status']){
+            return $response->withJson(array('message'=>'Exclusão realizada com sucesso.'), 200);
+        }else{
+            return $response->withJson($resultado, 500);
+        }
+    }else{
+        return $response->withJson($compromisso,404);
     }
 });
