@@ -8,7 +8,7 @@ class HelperProcessoParte extends HelperGeral
         'CODPESSOA', 'TIPOPARTE', 'ATIVO',
         'DATAHORAEXCLUSAO', 'EXCLUIDO',
         'EXCLUIDOPOR','DATAHORAALTERACAO',
-        'RESPALTERACAO', 'DATAHORAINCLUSAO'.
+        'RESPALTERACAO', 'DATAHORAINCLUSAO',
         'RESPINCLUSAO'
     );
 

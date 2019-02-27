@@ -8,7 +8,7 @@ class HelperProcessoParteProcurador extends HelperGeral
         'CODPESSOA', 'ATIVO',
         'DATAHORAEXCLUSAO', 'EXCLUIDO',
         'EXCLUIDOPOR', 'DATAHORAALTERACAO',
-        'RESPALTERACAO', 'DATAHORAINCLUSAO'.
+        'RESPALTERACAO', 'DATAHORAINCLUSAO',
         'RESPINCLUSAO'
     );
 
