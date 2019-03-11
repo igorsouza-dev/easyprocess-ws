@@ -5,7 +5,6 @@ class HelperProcesso extends HelperGeral
     public $campos = array(
         'CODPROCESSO','CODUSUARIO',
         'NUMEROPROCESSO', 'APELIDO',
-        'CODCLIENTE',
         'ORGAOJULGADOR', 'CODIGOCLASSEJUDICIAL',
         'COMPETENCIAJUDICIAL', 'JUIZRESPONSAVEL',
         'DATAHORAAUTUACAO', 'EXIBIRAPP',
