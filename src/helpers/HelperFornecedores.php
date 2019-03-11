@@ -1,11 +1,11 @@
 <?php
 
-class HelperClientes extends HelperGeral
+class HelperFornecedores extends HelperGeral
 {
-    public $primarykey = 'CODCLIENTE';
+    public $primarykey = 'CODFORNECEDOR';
     public $campos = array(
-        'CODCLIENTE', 'CODPESSOA',
-        'CODEMPRESA', 'ATIVO',
+        'CODFORNECEDOR', 'CODPESSOA',
+        'CODEMPRESA',
         'DATAHORAINCLUSAO', 'RESPINCLUSAO',
         'DATAHORAALTERACAO', 'RESPALTERACAO',
         'DATAHORAEXCLUSAO','EXCLUIDOPOR',
@@ -16,28 +16,28 @@ class HelperClientes extends HelperGeral
         'CODPESSOA','CODEMPRESA'
     );
 
-    public function getCliente($id)
+    public function getFornecedor($id)
     {
         $params = array(
             $this->primarykey => $id,
             'EXCLUIDO'=>"N"
         );
 
-        $result = $this->getClientes($params);
+        $result = $this->getFornecedores($params);
         if(isset($result['entity'])){
             $result['entity'] = $result['entity'][0];
         }
         return $result;
     }
 
-    public function getClientes($params)
+    public function getFornecedores($params)
     {
-        $resultado = $this->queryWithParams($params, 'Mclientes');
+        $resultado = $this->queryWithParams($params, 'Mfornecedores');
 
         if(count($resultado)){
-            $clientes = array();
-            foreach($resultado as $cliente){
-                $array = $this->toArray($cliente, $this->campos);
+            $fornecedores = array();
+            foreach($resultado as $fornecedor){
+                $array = $this->toArray($fornecedor, $this->campos);
                 $helperPessoa = new HelperPessoa();
                 if($array['CODPESSOA']) {
                     $pessoa = $helperPessoa->getPessoa($array['CODPESSOA']);
@@ -45,23 +45,23 @@ class HelperClientes extends HelperGeral
                         $array['Pessoa'] = $pessoa['entity'];
                     }
                 }
-                $clientes[] = $array;
+                $fornecedores[] = $array;
 
             }
-            return array('status'=>true, 'entity'=>$clientes);
+            return array('status'=>true, 'entity'=>$fornecedores);
         }else{
-            return array('status'=>false, 'error'=>'Não foram encontrados clientes com os dados informados.');
+            return array('status'=>false, 'error'=>'Não foram encontrados fornecedores com os dados informados.');
         }
     }
 
     public function insert($dados)
     {
-        $cliente = new Mclientes();
-        $dadosCliente = $this->removeCamposInvalidos($dados, $this->campos);
+        $fornecedor = new Mfornecedores();
+        $dadosFornecedor = $this->removeCamposInvalidos($dados, $this->campos);
 
         $helperEmpresa = new HelperEmpresa();
 
-        //verifica se foi informada uma empresa para o cliente
+        //verifica se foi informada uma empresa para o fornecedor
         if (isset($dados[$helperEmpresa->primarykey])) {
             //se foi, verifica se é valida
             $codempresa = $dados[$helperEmpresa->primarykey];
@@ -71,8 +71,8 @@ class HelperClientes extends HelperGeral
                 return array('status'=>false, 'error'=>'Empresa informada é inválida');
             }
 
-            $dadosCliente[$helperEmpresa->primarykey] = $codempresa;
-            $cliente->setEmpresa($codempresa);
+            $dadosFornecedor[$helperEmpresa->primarykey] = $codempresa;
+            $fornecedor->setEmpresa($codempresa);
 
         } else {
             return array('status'=>false, 'error'=>'Não foi informada uma empresa');
@@ -80,7 +80,7 @@ class HelperClientes extends HelperGeral
 
         $helperPessoa = new HelperPessoa();
 
-        //verifica se foi informada uma pessoa para o cliente
+        //verifica se foi informada uma pessoa para o fornecedor
         if (isset($dados[$helperPessoa->primarykey])) {
             //se foi, verifica se é valida
             $codpessoa = $dados[$helperPessoa->primarykey];
@@ -90,14 +90,14 @@ class HelperClientes extends HelperGeral
                 return array('status'=>false, 'error'=>'Pessoa informada é inválida');
             }
 
-            $dadosCliente[$helperPessoa->primarykey] = $codpessoa;
+            $dadosFornecedor[$helperPessoa->primarykey] = $codpessoa;
         } else {
             if(isset($dados['Pessoa'])) {
                 $dadosPessoa = $dados['Pessoa'];
                 $pessoa = $helperPessoa->insert($dadosPessoa);
                 if($pessoa['status']){
                     $pessoa = $pessoa['entity'];
-                    $dadosCliente['CODPESSOA'] = $pessoa['CODPESSOA'];
+                    $dadosFornecedor['CODPESSOA'] = $pessoa['CODPESSOA'];
                 } else {
                     return $pessoa;
                 }
@@ -107,38 +107,38 @@ class HelperClientes extends HelperGeral
         }
 
         if (!isset($dados['RESPINCLUSAO'])) {
-            $cliente->setResponsavel('APP EasyProcess');
+            $fornecedor->setResponsavel('APP EasyProcess');
         } else {
-            $cliente->setResponsavel($dados['RESPINCLUSAO']);
+            $fornecedor->setResponsavel($dados['RESPINCLUSAO']);
         }
-        $validou = $this->verificaCamposObrigatorios($dadosCliente, $this->campos_obrigatorios);
+        $validou = $this->verificaCamposObrigatorios($dadosFornecedor, $this->campos_obrigatorios);
 
         if ($validou['status']) {
             try {
-                $dadosCliente = $this->chavesToLowerCase($dadosCliente);
-                $dadosCliente = $this->decodificaCaracteres($dadosCliente);
+                $dadosFornecedor = $this->chavesToLowerCase($dadosFornecedor);
+                $dadosFornecedor = $this->decodificaCaracteres($dadosFornecedor);
 
-                $inserido = $cliente->insert($dadosCliente);
+                $inserido = $fornecedor->insert($dadosFornecedor);
                 if ($inserido) {
-                    $cliente = $this->getCliente($inserido);
-                    return $cliente;
+                    $fornecedor = $this->getFornecedor($inserido);
+                    return $fornecedor;
                 }
             } catch (Exception $e) {
                 return array(
                     'status'=>false,
-                    'error'=>'Ocorreu um erro ao inserir cliente no banco de dados.',
+                    'error'=>'Ocorreu um erro ao inserir fornecedor no banco de dados.',
                     'error_db'=>$e->getMessage()
                 );
             }
         } else {
             return $validou;
         }
-        return array('status'=>false, 'error'=>'Não foi possível cadastrar cliente');
+        return array('status'=>false, 'error'=>'Não foi possível cadastrar fornecedor');
     }
 
     public function update($dados, $where = '')
     {
-        $entity = new Mclientes();
+        $entity = new Mfornecedores();
         if ($where == '') {
             if (isset($dados[$this->primarykey])) {
                 $where = $this->primarykey.' = '.$dados[$this->primarykey];
@@ -188,7 +188,7 @@ class HelperClientes extends HelperGeral
                 'error_db'=>$e->getMessage()
             );
         }
-        return array('status'=>false, 'error'=>'Não foi possível '.$tipoupdate.' os dados do cliente.');
+        return array('status'=>false, 'error'=>'Não foi possível '.$tipoupdate.' os dados do fornecedor.');
     }
 
     public function delete($where = '', $responsavel = '')
