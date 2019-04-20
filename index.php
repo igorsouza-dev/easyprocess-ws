@@ -76,5 +76,6 @@ require 'src/routes/eproc.php';
 require 'src/routes/anotacoes.php';
 require 'src/routes/contas.php';
 require 'src/routes/clientes.php';
+require 'src/routes/fornecedores.php';
 
 $app->run();

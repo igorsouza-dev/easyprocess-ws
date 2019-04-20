@@ -53,7 +53,12 @@ class HelperContas extends HelperGeral
         if(count($resultado)){
             $contas = array();
             foreach($resultado as $conta){
-                $contas[] = $this->toArray($conta, $this->campos);
+                $conta = $this->toArray($conta, $this->campos);
+                $conta['VALOR'] = number_format($conta['VALOR'], 2);
+                $conta['JUROS'] = number_format($conta['JUROS'], 2);
+                $conta['MULTA'] = number_format($conta['MULTA'], 2);
+                $conta['VALORTOTAL'] = number_format($conta['VALORTOTAL'], 2);
+                $contas[] = $conta;
             }
             return array('status'=>true, 'entity'=>$contas);
         }else{
