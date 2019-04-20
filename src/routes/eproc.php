@@ -114,7 +114,7 @@ $app->get('/eproc/consultarProcesso', function(Request $request, Response $respo
 $app->options('/eproc/consultarProcesso', function (Request $request, Response $response) {
     return $response->withStatus(200);
 });
-//esse método é provavelmente inútil
+//esse mÃ©todo Ã© provavelmente inÃºtil
 $app->post('/eproc/consultarProcessoXmlRetorno', function(Request $request, Response $response){
     $helper = new HelperEproc();
     /* dados para teste

@@ -58,6 +58,23 @@ class HelperContas extends HelperGeral
                 $conta['JUROS'] = number_format($conta['JUROS'], 2);
                 $conta['MULTA'] = number_format($conta['MULTA'], 2);
                 $conta['VALORTOTAL'] = number_format($conta['VALORTOTAL'], 2);
+
+                if($conta['CODCLIENTE']>0) {
+                    $helperCliente = new HelperClientes();
+                    $cliente = $helperCliente->getCliente($conta['CODCLIENTE']);
+                    if($cliente['status']) {
+                        $conta['Cliente'] = $cliente['entity'];
+                    }
+                }
+
+                if($conta['CODFORNECEDOR']>0) {
+                    $helperFornecedor = new HelperFornecedores();
+                    $fornecedor = $helperFornecedor->getFornecedor($conta['CODFORNECEDOR']);
+                    if($fornecedor['status']) {
+                        $conta['Fornecedor'] = $fornecedor['entity'];
+                    }
+                }
+
                 $contas[] = $conta;
             }
             return array('status'=>true, 'entity'=>$contas);
@@ -139,11 +156,63 @@ class HelperContas extends HelperGeral
             try {
                 $dadosConta = $this->chavesToLowerCase($dadosConta);
                 $dadosConta = $this->decodificaCaracteres($dadosConta);
-
                 $inserido = $conta->insert($dadosConta);
                 if ($inserido) {
                     $inserido = $this->getConta($inserido);
                     $totalparcelas = $dadosConta['totalparcelas'];
+                    // insere na agenda um compromisso com a data de vencimento sendo a data de alerta
+                    $titulo = $dadosConta['TIPOCONTA'] == 'R' ?  'Conta a Receber' : 'Conta a Pagar';
+                    $datasolicitacao = '';
+                    if($dadosConta['datavencimento']) {
+                        $datasolicitacao = date("d/m/Y", strtotime($dadosConta['datavencimento']));
+                    }
+                    $dadosCompromisso = [
+                        'TITULO' => $titulo,
+                        'CODEMPRESA' => $dadosConta['codempresa'],
+                        'CODUSUARIO' => $dadosConta['codusuario'],
+                        'SOLICITACAO' => $dadosConta['descricao'],
+                        'DATASOLICITACAO' => $datasolicitacao,
+                        'HORASOLICITACAO' => '00:00:00',
+                        'HORAFIMSOLICITACAO' => '23:59:59',
+                        'ALERTA' => 'N',
+                        'EXECUTADA' => 0
+                    ];
+                    if(isset($dadosConta['codprocesso'])) {
+                        $dadosCompromisso['CODPROCESSO'] = $dadosConta['codprocesso'];
+                        $processo = $helperProcesso->getProcesso($dadosConta['codprocesso']);
+                        if($processo['status']) {
+                            $processo = $processo['entity'];
+                            if($processo['APELIDO'] != '') {
+                                $dadosCompromisso['TITULO'] .= ' - '.$processo['APELIDO'];
+                            } else {
+                                $dadosCompromisso['TITULO'] .= ' - '.$processo['NUMEROPROCESSO'];
+                            }
+                        }
+                    }
+                    if(isset($dadosConta['codcliente'])) {
+                        $dadosCompromisso['CODCLIENTE'] = $dadosConta['codcliente'];
+                        $helperCliente = new HelperClientes();
+                        $cliente = $helperCliente->getCliente($dadosConta['codcliente']);
+                        if($cliente['status']) {
+                            $cliente = $cliente['entity'];
+                            if(isset($cliente['Pessoa'])) {
+                                $dadosCompromisso['TITULO'] .= ' - '.$cliente['Pessoa']['NOME'];
+                            }
+                        }
+                    }
+                    if(isset($dadosConta['codfornecedor'])) {
+                        $dadosCompromisso['CODFORNECEDOR'] = $dadosConta['codfornecedor'];
+                        $helperFornecedor = new HelperFornecedores();
+                        $fornecedor = $helperFornecedor->getFornecedor($dadosConta['codfornecedor']);
+                        if($fornecedor['status']) {
+                            $fornecedor = $fornecedor['entity'];
+                            if(isset($fornecedor['Pessoa'])) {
+                                $dadosCompromisso['TITULO'] .= ' - '.$fornecedor['Pessoa']['NOME'];
+                            }
+                        }
+                    }
+                    $helperCompromisso = new HelperCompromisso();
+                    $compromisso = $helperCompromisso->insert($dadosCompromisso);
 
                     //verifica se tem mais de uma parcela
                     if ($totalparcelas > 1) {
@@ -160,6 +229,8 @@ class HelperContas extends HelperGeral
                             $dadosConta['parcela'] = $i+1;
                             try {
                                 $parcela = $conta->insert($dadosConta);
+                                $dadosCompromisso['DATASOLICITACAO'] = date("d/m/Y", strtotime($datavenc));
+                                $helperCompromisso->insert($dadosCompromisso);
                                 if ($parcela) {
                                     $parcela = $this->getConta($parcela);
                                    array_push($arrayparcelas, $parcela['entity']);
