@@ -4,7 +4,7 @@ class HelperProcesso extends HelperGeral
     public $primarykey = 'CODPROCESSO';
     public $campos = array(
         'CODPROCESSO','CODUSUARIO',
-        'NUMEROPROCESSO', 'APELIDO',
+        'CODCLIENTE','NUMEROPROCESSO', 'APELIDO',
         'ORGAOJULGADOR', 'CODIGOCLASSEJUDICIAL',
         'COMPETENCIAJUDICIAL', 'JUIZRESPONSAVEL',
         'DATAHORAAUTUACAO', 'EXIBIRAPP',
@@ -39,6 +39,13 @@ class HelperProcesso extends HelperGeral
             $helperAssunto = new HelperAssuntoProcesso();
             foreach($resultado as $processo){
                 $arrayProcesso = $this->toArray($processo, $this->campos);
+                if($arrayProcesso['CODCLIENTE']>0) {
+                    $helperCliente = new HelperClientes();
+                    $cliente = $helperCliente->getCliente($arrayProcesso['CODCLIENTE']);
+                    if($cliente['status']){
+                        $arrayProcesso['Cliente'] = $cliente['entity'];
+                    }
+                }
                 $codprocesso = $arrayProcesso['CODPROCESSO'];
 
                 $partes = $helperPartes->getPartesByProcesso($codprocesso);
