@@ -45,6 +45,22 @@ class HelperCompromisso extends HelperGeral
             $compromissos = array();
             foreach($resultado as $compromisso){
                 $array = $this->toArray($compromisso, $this->campos);
+                if($array['CODCLIENTE']>0) {
+                    $helperCliente = new HelperClientes();
+                    $cliente = $helperCliente->getCliente($array['CODCLIENTE']);
+                    if($cliente['status']) {
+                        $array['Cliente'] = $cliente['entity'];
+                    }
+                }
+
+                if($array['CODFORNECEDOR']>0) {
+                    $helperFornecedor = new HelperFornecedores();
+                    $fornecedor = $helperFornecedor->getFornecedor($array['CODFORNECEDOR']);
+                    if($fornecedor['status']) {
+                        $array['Fornecedor'] = $fornecedor['entity'];
+                    }
+                }
+
                 if($array['CODPROCESSO'] > 0) {
                     $helperProcesso = new HelperProcesso();
                     $processo = $helperProcesso->getProcesso($array['CODPROCESSO']);
