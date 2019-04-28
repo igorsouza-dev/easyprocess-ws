@@ -16,6 +16,7 @@ $config = [
         '/auth/new',
         '/auth/esqueci',
         '/',
+        '/pagamentos/postback',
 //        '/eproc',
 //        '/eproc/consultarAlteracao',
 //        '/eproc/consultarAvisosPendentes',
@@ -77,5 +78,6 @@ require 'src/routes/anotacoes.php';
 require 'src/routes/contas.php';
 require 'src/routes/clientes.php';
 require 'src/routes/fornecedores.php';
+require 'src/routes/pagamentos.php';
 
 $app->run();
