@@ -1,5 +1,6 @@
 <?php
-use \PagarMe\Exceptions\PagarMeException;
+// Versao atual do php não permite usar a biblioteca do Pagar Me
+//use \PagarMe\Exceptions\PagarMeException;
 
 class HelperPagamentos
 {

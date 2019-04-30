@@ -1,7 +1,6 @@
 {
     "require": {
         "slim/slim": "^3.0",
-        "lcobucci/jwt": "^3.2",
-        "pagarme/pagarme-php": "^4.0"
+        "lcobucci/jwt": "^3.2"
     }
 }
