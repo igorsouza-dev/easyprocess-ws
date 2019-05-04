@@ -16,7 +16,7 @@ $config = [
         '/auth/new',
         '/auth/esqueci',
         '/',
-//        '/pagamentos/postback',
+        '/pagamentos/postback',
 //        '/eproc',
 //        '/eproc/consultarAlteracao',
 //        '/eproc/consultarAvisosPendentes',
@@ -79,7 +79,6 @@ require 'src/routes/contas.php';
 require 'src/routes/clientes.php';
 require 'src/routes/fornecedores.php';
 
-// por enquanto nao utilizar a rota de pagamento devido a incompatibilidade do php no servidor
-//require 'src/routes/pagamentos.php';
+require 'src/routes/pagamentos.php';
 
 $app->run();

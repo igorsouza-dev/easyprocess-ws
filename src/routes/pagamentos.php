@@ -32,7 +32,20 @@ $app->get('/pagamentos/planos', function(Request $request, Response $response) {
         return $response->withJson($planos, 404);
     }
 });
-
+// busca planos
+$app->post('/pagamentos/planos', function(Request $request, Response $response) {
+    $params = $request->getParsedBody();
+    if(is_null($params)){
+        $params = [];
+    }
+    $helper = new HelperPagamentos();
+    $planos = $helper->criaPlano($params);
+    if ($planos['status']) {
+        return $response->withJson($planos, 200);
+    } else {
+        return $response->withJson($planos, 404);
+    }
+});
 // busca um plano pelo seu id
 $app->get('/pagamentos/planos/{id}', function(Request $request, Response $response){
     $id = $request->getAttribute('id');
@@ -50,17 +63,12 @@ $app->put('/pagamentos/planos/{id}', function(Request $request, Response $respon
     $id = $request->getAttribute('id');
     $params = $request->getParsedBody();
     $helper = new HelperPagamentos();
-    $params['id'] = $id;
-    $planos = $helper->atualizaPlano($params);
+    $planos = $helper->atualizaPlano($params, $id);
     if ($planos['status']) {
         return $response->withJson($planos, 200);
     } else {
         return $response->withJson($planos, 404);
     }
-});
-
-$app->post('/pagamentos/assinatura', function(Request $request, Response $response) {
-
 });
 
 $app->post('/pagamentos/postback', function(Request $request, Response $response) {
@@ -109,6 +117,28 @@ $app->post('/pagamentos/assinatura-boleto', function(Request $request, Response 
 
     $helper = new HelperPagamentos();
     $assinatura = $helper->criaAssinaturaBoleto($dados, $coduser);
+    if ($assinatura['status']) {
+        return $response->withJson($assinatura, 200);
+    } else {
+        return $response->withJson($assinatura, 404);
+    }
+});
+
+$app->get('/pagamentos/assinaturas', function(Request $request, Response $response) {
+    $dados = $request->getParsedBody();
+    $helper = new HelperPagamentos();
+    $assinatura = $helper->getAssinaturas($dados);
+    if ($assinatura['status']) {
+        return $response->withJson($assinatura, 200);
+    } else {
+        return $response->withJson($assinatura, 404);
+    }
+});
+
+$app->get('/pagamentos/assinaturas/{id}', function(Request $request, Response $response) {
+    $id = $request->getAttribute('id');
+    $helper = new HelperPagamentos();
+    $assinatura = $helper->getAssinatura($id);
     if ($assinatura['status']) {
         return $response->withJson($assinatura, 200);
     } else {
