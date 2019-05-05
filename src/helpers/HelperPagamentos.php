@@ -3,7 +3,7 @@
 
 class HelperPagamentos
 {
-    protected $api_key = 'ak_test_2LtdFAVSWsHyScAvl8fFEI9vLLIfG1';
+    protected $api_key = 'ak_test_5dqz6ODeAqf7JM1UPkfEeU61b7ZCFo';
     protected $base_url = "https://api.pagar.me/1";
     protected $headers = [
         'Content-Type: application/json'
@@ -88,8 +88,8 @@ class HelperPagamentos
         }
         $dados['payment_method'] = $metodo;
         $dados['postback_url'] = $this->postback_url;
-        $dados['metadata'] = 'codusuario='.$codusuario;
 
+        $dados['metadata'] = ['codusuario'=>$codusuario];
         return $this->post('subscriptions', $dados);
     }
     public function criaAssinaturaBoleto($dados, $codusuario)
@@ -107,5 +107,13 @@ class HelperPagamentos
     public function getAssinatura($id)
     {
         return $this->get('subscriptions/'.$id, []);
+    }
+    public function atualizaAssinatura($id, $params)
+    {
+        return $this->put('subscriptions/'.$id, $params);
+    }
+    public function cancelaAssinatura($id)
+    {
+        return $this->post('subscriptions/'.$id.'/cancel', []);
     }
 }
