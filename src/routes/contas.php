@@ -80,6 +80,8 @@ $app->delete('/contas/{id}', function(Request $request, Response $response) {
     if($conta['status']){
         $resultado = $helperContas->deleteById($id, $responsavel);
         if($resultado['status']){
+            $helperCompromisso = new HelperCompromisso();
+            $helperCompromisso->delete('CODCONTA = '.$id." AND EXCLUIDO = 'N'");
             return $response->withJson(array('message'=>'Exclusão realizada com sucesso.'), 200);
         }else{
             return $response->withJson($resultado, 500);

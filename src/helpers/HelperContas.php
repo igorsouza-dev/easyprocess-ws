@@ -74,6 +74,13 @@ class HelperContas extends HelperGeral
                         $conta['Fornecedor'] = $fornecedor['entity'];
                     }
                 }
+                if($conta['CODPROCESSO']>0) {
+                    $helperProcesso = new HelperProcesso();
+                    $processo = $helperProcesso->getProcesso($conta['CODPROCESSO']);
+                    if ($processo['status']) {
+                        $conta['Processo'] = $processo['entity'];
+                    }
+                }
 
                 $contas[] = $conta;
             }
