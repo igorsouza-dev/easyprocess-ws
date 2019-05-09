@@ -176,6 +176,7 @@ class HelperContas extends HelperGeral
                     $dadosCompromisso = [
                         'TITULO' => $titulo,
                         'CODEMPRESA' => $dadosConta['codempresa'],
+                        'CODCONTA' => $dadosConta['codconta'],
                         'CODUSUARIO' => $dadosConta['codusuario'],
                         'SOLICITACAO' => $dadosConta['descricao'],
                         'DATASOLICITACAO' => $datasolicitacao,

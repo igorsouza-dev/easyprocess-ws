@@ -8,7 +8,7 @@ class HelperCompromisso extends HelperGeral
         'RESPINCLUSAO','DATAHORAALTERACAO',
         'RESPALTERACAO','CODEMPRESA',
         'CODUSUARIO','CODPROCESSO', 'ALERTA',
-        'CODFORNECEDOR','CODCLIENTE',
+        'CODFORNECEDOR','CODCLIENTE', 'CODCONTA',
         'TITULO','SOLICITACAO',
         'DATASOLICITACAO','HORASOLICITACAO',
         'HORAFIMSOLICITACAO',
@@ -66,6 +66,14 @@ class HelperCompromisso extends HelperGeral
                     $processo = $helperProcesso->getProcesso($array['CODPROCESSO']);
                     if($processo['status']) {
                         $array['Processo'] = $processo['entity'];
+                    }
+                }
+
+                if($array['CODCONTA'] > 0) {
+                    $helperContas = new HelperContas();
+                    $conta = $helperContas->getConta($array['CODCONTA']);
+                    if($conta['status']) {
+                        $array['Conta'] = $conta['entity'];
                     }
                 }
                 $compromissos[] = $array;
