@@ -176,7 +176,7 @@ class HelperContas extends HelperGeral
                     $dadosCompromisso = [
                         'TITULO' => $titulo,
                         'CODEMPRESA' => $dadosConta['codempresa'],
-                        'CODCONTA' => $dadosConta['codconta'],
+                        'CODCONTA' => $inserido['entity']['CODCONTA'],
                         'CODUSUARIO' => $dadosConta['codusuario'],
                         'SOLICITACAO' => $dadosConta['descricao'],
                         'DATASOLICITACAO' => $datasolicitacao,
@@ -238,10 +238,11 @@ class HelperContas extends HelperGeral
                             try {
                                 $parcela = $conta->insert($dadosConta);
                                 $dadosCompromisso['DATASOLICITACAO'] = date("d/m/Y", strtotime($datavenc));
-                                $helperCompromisso->insert($dadosCompromisso);
                                 if ($parcela) {
                                     $parcela = $this->getConta($parcela);
                                    array_push($arrayparcelas, $parcela['entity']);
+                                   $dadosCompromisso['CODCONTA'] = $parcela['entity']['CODCONTA'];
+                                    $helperCompromisso->insert($dadosCompromisso);
                                 }
                             } catch (Exception $e) {
                                 return array(
